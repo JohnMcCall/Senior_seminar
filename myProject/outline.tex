@@ -55,37 +55,91 @@ John T. McCall\\
 	As stated above I need to find some sources about compilers. I probably will need to find more papers dealing with ZK-Compilers as well.
 
 	\subsection{Key Points}
+	\textbf{What main problems(s) or questions(s) does the research address?}
+	
+	The main problem that the research address is how to create reliable zero knowledge
+	protocols. They can be difficult to define and even harder to verify. Zero knowledge
+	compilers help because they can efficiently generate zero knowledge protocols, and
+	because of how they are constructed the user can trust that they will work.
+	
+	\textbf{What are the key contributions of each of your main sources?}
+	
+	Source~\cite{ZKCrypt:2012} provides a great deal of information about their zero
+	knowledge compiler, ZKCrypt. They go into detail about zero knowledge protocols, 
+	how their compiler produces them, and they give a proof verifying that their protocols
+	are valid. They also talk about a few applications of their compiler.
+	
+	Source~\cite{ZKPDL:2010} talks in depth about ZKPDL, which is a language they created
+	for writing zero knowledge protocols. They also created an interpreter for this
+	language, which performs optimizations to lower computational and space overhead.
+	This paper also provides an example dealing with electronic cash.
+	
+	Source~\cite{Sigma:2009} uses $\Sigma$-Protocols in a compiler to automatically 
+	generate sound and efficient zero knowledge proofs of knowledge. The compiler
+	automatically generates the implementation of the protocol in Java, or it can output
+	a description of the protocol in \LaTeX.
+	
+	\textbf{How are the main sources related to each other?}
+	
+	The main sources all use compilers to generate zero knowledge protocols, but the
+	ways they are implemented are all different so there is some room for comparison.
+	All the compilers are also based off $\Sigma$-Protocols, or variations of $\Sigma$-
+	Protocols.
+	
+	\textbf{What is the state of the research?}
+	
+	The current state is that the compilers have been implemented and tested. They all
+	provided enough data to back up their research. Most of the work they are doing now
+	will extend the applications of their compilers to support other proof types.
+	
+	\textbf{What background material will you need to present in order for your audience to understand the research?}
+	
+	I will need to provide background information on zero knowledge protocols and
+	compilers. It's probably more important that I focus on zero knowledge protocols and
+	only give basic compiler background.
+	
 
 
 \section{Zero Knowledge Protocols}
-
+	The section will cover Zero Knowledge Protocols and will provide background
+	and examples. There will probably be an easy to grasp example, such as the cave
+	example, and a more advanced example.
+	
 	\subsection{Background}
 
 	\subsection{Examples}
 
 
 \section{Compilers}
+	This section will provide some basic background information about compilers.
 
 	\subsection{Background}
 	
 
 \section{Zero Knowledge Compilers}
+	This section will be the main section. Here I will talk about my core sources and
+	how they are using their compilers.
 
 	\subsection{Sigma-Protocols}
-		Here I'll talk about Sigma-protocols and 
+		Here I'll talk about Sigma-protocols and how they are used in the following
+		compilers.
 		
 		Note to myself: Look into the Fiat-Shamir heuristic
 	\subsection{ZKCrypt}
-		Here I'll talk about
+		Here I'll talk about ZKCrypt, it's implementation and verification steps.
+		
 	\subsection{ZKPDL}
+		Similar to ZKCrypt section.
 
 \section{Applications}
+	Here I'll talk about how those compilers are used in the real world.
 	
 	\subsection{Electronic Cash}
 	
 	\subsection{Another Application}
 
 \section{Conclusion}
+	This is where I'll neatly wrap everything up.
 
 % The following two commands are all you need to
 % produce the bibliography for the citations in your paper.
