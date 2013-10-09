@@ -1,0 +1,214 @@
+% This is a sample document using the University of Minnesota, Morris, Computer Science
+% Senior Seminar modification of the ACM sig-alternate style to generate a simple annotated
+% bibliography. The idea is that this document is fairly short, consisting of a brief description
+% of your sources and how you intend to use them (or not). Most of the ``content'' of the
+% generated document comes from the bibliography file, including the notes field which will
+% provide the annotations.
+
+% See https://github.com/UMM-CSci/Senior_seminar_templates for more info and to make
+% suggestions and corrections.
+
+\documentclass{sig-alternate}
+\usepackage{amsmath}
+
+\newtheorem{interactiveProof}{Definition}
+\newtheorem{zeroKnowledge}{Definition}
+
+\begin{document}
+
+% --- Author Metadata here ---
+%%% REMEMBER TO CHANGE THE SEMESTER AND YEAR
+\conferenceinfo{UMM CSci Senior Seminar Conference, December 2013}{Morris, MN}
+
+\title{Zero Knowledge Compilers}
+
+\numberofauthors{1}
+
+\author{
+% The command \alignauthor (no curly braces needed) should
+% precede each author name, affiliation/snail-mail address and
+% e-mail address. Additionally, tag each line of
+% affiliation/address with \affaddr, and tag the
+% e-mail address with \email.
+\alignauthor
+John T. McCall\\
+	\affaddr{Division of Science and Mathematics}\\
+	\affaddr{University of Minnesota, Morris}\\
+	\affaddr{Morris, Minnesota, USA 56267}\\
+	\email{mcca0798@morris.umn.edu}
+}
+
+\maketitle
+
+\begin{abstract}
+<Insert Abstract Here>
+\end{abstract}
+
+\terms{Need to figure this out yet}
+
+\keywords{Zero Knowledge Protocols, Compilers}
+
+\section{Introduction}
+	I will focus on Zero-Knowledge Compilers which are compilers that automatically generate Zero-Knowledge proofs. This is how I plan to use the following sources:
+	\begin{itemize}
+		\item I expect~\cite{ZKCrypt:2012, Sigma:2009, ZKPDL:2010} to be my core sources, depending on how relevent~\cite{ZKPDL:2010} turns out to be I'll replace it with a better source.
+		\item I will use~\cite{MentalGame:1987, Survey, Children:1987} for background information and examples of Zero-Knowledge Protocols. 
+		\item I will need to find some papers for background information on compilers.
+	\end{itemize}
+
+	As stated above I need to find some sources about compilers. I probably will need to find more papers dealing with ZK-Compilers as well.
+
+	\subsection{Key Points}
+	\textbf{What main problems(s) or questions(s) does the research address?}
+	
+	The main problem that the research address is how to create reliable zero knowledge
+	protocols. They can be difficult to define and even harder to verify. Zero knowledge
+	compilers help because they can efficiently generate zero knowledge protocols, and
+	because of how they are constructed the user can trust that they will work.
+	
+	\textbf{What are the key contributions of each of your main sources?}
+	
+	Source~\cite{ZKCrypt:2012} provides a great deal of information about their zero
+	knowledge compiler, ZKCrypt. They go into detail about zero knowledge protocols, 
+	how their compiler produces them, and they give a proof verifying that their protocols
+	are valid. They also talk about a few applications of their compiler.
+	
+	Source~\cite{ZKPDL:2010} talks in depth about ZKPDL, which is a language they created
+	for writing zero knowledge protocols. They also created an interpreter for this
+	language, which performs optimizations to lower computational and space overhead.
+	This paper also provides an example dealing with electronic cash.
+	
+	Source~\cite{Sigma:2009} uses $\Sigma$-Protocols in a compiler to automatically 
+	generate sound and efficient zero knowledge proofs of knowledge. The compiler
+	automatically generates the implementation of the protocol in Java, or it can output
+	a description of the protocol in \LaTeX.
+	
+	\textbf{How are the main sources related to each other?}
+	
+	The main sources all use compilers to generate zero knowledge protocols, but the
+	ways they are implemented are all different so there is some room for comparison.
+	All the compilers are also based off $\Sigma$-Protocols, or variations of $\Sigma$-
+	Protocols.
+	
+	\textbf{What is the state of the research?}
+	
+	The current state is that the compilers have been implemented and tested. They all
+	provided enough data to back up their research. Most of the work they are doing now
+	will extend the applications of their compilers to support other proof types.
+	
+	\textbf{What background material will you need to present in order for your audience to understand the research?}
+	
+	I will need to provide background information on zero knowledge protocols and
+	compilers. It's probably more important that I focus on zero knowledge protocols and
+	only give basic compiler background.
+	
+
+
+\section{Zero Knowledge Protocols}
+	Zero	 knowledge protocols, also referred to as zero knowledge proofs, are a type
+	of protocol in which one party, called the \textit{prover}, tries to convince the 
+	other party, called the \textit{verifier}, that a given statement is true.
+	
+	\subsection{Definition}
+		Formally, a zero knowledge proof is a type of interactive proof. Mohr gives
+		a concise definition in~\cite{Survey}.
+	
+		\begin{interactiveProof}
+			An interactive proof system for a set $S$ is a two-party game between a
+			\textit{verifier} executing a probabilistic polynomial-time strategy and
+			a \textit{prover} which executes a computationally unbound strategy 
+			satisfying:
+			
+			\begin{itemize}
+				\item \textit{Completeness}: For every $ x \in S$, the verifier always
+				accepts after interacting with the prover on common input $x$
+				
+				\item \textit{Soundness}: For some polynomial $p$, it holds that for
+				every $x \notin S$ and every potential strategy $P^{*}$, the verifier
+				rejects with probability at least $\frac{1}{p(|x|)}$ after interacting
+				with $P^{*}$ on common input $x$.
+			\end{itemize}
+			
+		\end{interactiveProof}
+		
+		To summarize: if an honest verifier is always convinced after interacting with
+		an honest prover, then the proof is complete. A proof is sound if a cheating
+		prover can only convince an honest verifier with some small probability.
+		
+		For an interactive proof to be a zero knowledge proof it must, unsurprisingly,
+		satisfy the condition of \textit{Zero Knowledge}.		
+		
+		\begin{zeroKnowledge}
+			A proof is zero knowledge on (inputs from) the set $S$ if, for every feasible
+			strategy $B^{*}$ there exists a feasible computation $C^{*}$ so that the
+			following two probability ensembles are computationally indistinguishable:
+			
+			\begin{itemize}
+				\item the output of $B^{*}$ after interacting with $A$ on common input
+				$x \in S$
+				
+				\item the output of $C^{*}$ on input $x \in S$
+			\end{itemize}						
+			
+		\end{zeroKnowledge}
+		
+		In other words, any information, in this case $B^{*}$, that can be learned by
+		interacting with $A$ can also be learned without interacting with
+		$A$.~\cite{Survey}
+		
+		In certain cases the ability to prove a statement requires some secret knowledge
+		by the prover. A \textit{zero knowledge proof of knowledge} is a specific type
+		of zero knowledge protocol in which the prover must convince the verifier
+		of the validity of the statement without	revealing that secret knowledge.
+		\cite{Wiki}
+
+	\subsection{Examples}
+
+
+\section{Compilers}
+	This section will provide some basic background information about compilers.
+
+	\subsection{Background}
+	
+
+\section{Zero Knowledge Compilers}
+	This section will be the main section. Here I will talk about my core sources and
+	how they are using their compilers.
+
+	\subsection{Sigma-Protocols}
+		Here I'll talk about Sigma-protocols and how they are used in the following
+		compilers.
+		
+		Note to myself: Look into the Fiat-Shamir heuristic
+	\subsection{ZKCrypt}
+		Here I'll talk about ZKCrypt, it's implementation and verification steps.
+		
+	\subsection{ZKPDL}
+		Similar to ZKCrypt section.
+
+\section{Applications}
+	Here I'll talk about how those compilers are used in the real world.
+	
+	\subsection{Electronic Cash}
+	
+	\subsection{Another Application}
+
+\section{Conclusion}
+	This is where I'll neatly wrap everything up.
+
+% The following two commands are all you need to
+% produce the bibliography for the citations in your paper.
+\bibliographystyle{abbrv}
+% annotated_bibliography.bib is the name of the BibTex file containing 
+% all the bibliography entries for this example. Note that you *don't* include the .bib ending
+% in the \bibliography command.
+\bibliography{annotated_bibliography}
+
+% You must have a ".bib" file and remember to run:
+%     pdflatex bibtex pdflatex pdflatex
+% in order to see all the citation references correctly.
+
+\end{document}
+
+
+
