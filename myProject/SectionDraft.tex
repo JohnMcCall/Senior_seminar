@@ -163,7 +163,60 @@ John T. McCall\\
 		\cite{Wiki}
 
 	\subsection{Examples}
+	Below are a couple of examples of zero knowledge protocols. The first
+	example is easy to follow and just highlights how a zero knowledge
+	protocol functions. The second is more complex, but is a more
+	real world application.
 
+	\subsubsection{The Magic Cave}
+	The classic example for zero knowledge protocols is the cave example.
+	First presented in~\cite{Children:1987} and then restated
+	in~\cite{Survey} the cave example is the go to example for learning
+	zero knowledge protocols.
+
+	Peggy has stumbled across a magical cave. Upon entering the cave
+	there are two paths, one leading to the right and one leading to the
+	left. Both paths eventually lead to a dead end, however Peggy has
+	discovered a secret word that opens up a hidden door in the dead end,
+	connecting both paths.
+
+	Victor hears about this, and offers to buy the secret from Peggy for
+	\$1,000,000, which Peggy agrees to. Before giving Peggy the money Victor
+	wants to be certain that Peggy actually knows this secret word. How can
+	Peggy (the prover) convince Victor (the verifier) that she knows the
+	word, without revealing what it is?
+
+	The two of them come up with the following plan. First, Victor will wait
+	outside the cave while Peggy goes in. She will randomly pick either the
+	right or the left path and go down it. Since Victor was outside he
+	should have no knowledge of which path Peggy took. Then Victor will
+	enter the cave. He will wait by the fork and shout to Peggy which
+	path to return from. 
+	
+	Assuming that Peggy knows the word, she should be able to return down
+	the correct path, regardless of which one she started on. If Victor 
+	says to	return down the path she started on, she simply walks back. 
+	If Victor says to return down the other path, she whipers the magic
+	word, goes through the door, and returns down the other path.
+
+	If Peggy doesn't know the word, about there is a 50\% chance that Victor
+	will choose the path she did not start down. If this happens there is
+	no way that she can return down the correct path. The experiment should
+	be repeated until Victor either discovers Peggy is a liar becuase she
+	returned down the wrong path, or until he is sufficiently satisfied
+	that she does indeed know the word.
+
+	Is this a zero knowledge protocol? It satisfies completeness because
+	if Peggy knows the word she will be able to convince Victor. It is
+	sound because if Peggy doens't know the word she will not be able to
+	convince Victor unless she was very lucky. Finally it is zero knowledge
+	because if Victor follows the protocol he will not be able to learn
+	anything besides whether or not Peggy knows the word. Since this
+	protocol satisfies these three conditions it is in fact a zero knowledge
+	protocol.
+
+	\subsubsection{Graph Isomorphism}
+	
 
 \section{Compilers}
 	This section will provide some basic background information about compilers.
