@@ -107,7 +107,10 @@ John T. McCall\\
 \section{Zero Knowledge Protocols}
 	Zero knowledge protocols, also referred to as zero knowledge proofs, are a type
 	of protocol in which one party, called the \textit{prover}, tries to convince the 
-	other party, called the \textit{verifier}, that a given statement is true.
+	other party, called the \textit{verifier}, that a given statement is true. Sometimes
+	the statement is that the prover possesses a particular piece of information. This
+	is a special case of zero knowledge protocol called a \textit{zero knowledge proof
+	of knowledge}~\cite{Wiki}.
 	
 	\subsection{Definition}
 		Formally, a zero knowledge proof is a type of interactive proof. Mohr gives
@@ -135,8 +138,8 @@ John T. McCall\\
 		an honest prover, then the proof is complete. A proof is sound if a cheating
 		prover can only convince an honest verifier with some small probability.
 		
-		For an interactive proof to be a zero knowledge proof it must, unsurprisingly,
-		satisfy the condition of \textit{Zero Knowledge}.		
+		For an interactive proof to be a zero knowledge proof it must
+		satisfy the condition of \textit{zero knowledge}.		
 		
 		\begin{zeroKnowledge}
 			A proof is zero knowledge on (inputs from) the set $S$ if, for every feasible
@@ -155,22 +158,17 @@ John T. McCall\\
 		In other words, any information, in this case $B^{*}$, that can be learned by
 		interacting with $A$ can also be learned without interacting with
 		$A$.~\cite{Survey}
-		
-		In certain cases the ability to prove a statement requires some secret knowledge
-		by the prover. A \textit{zero knowledge proof of knowledge} is a specific type
-		of zero knowledge protocol in which the prover must convince the verifier
-		of the validity of the statement without	revealing that secret knowledge.
-		\cite{Wiki}
 
 	\subsection{Examples}
-	Below is an example of zero knowledge protocols. This
+	Below are two examples of zero knowledge protocols. The first
 	example is easy to follow and just highlights how a zero knowledge
-	protocol functions. 
+	protocol functions. The second example is more in depth and shows
+	how an application of zero knowledge protocols.
 	
 	\subsubsection{The Magic Cave}
 	The classic example for zero knowledge protocols is the cave example.
 	First presented in~\cite{Children:1987} and then restated
-	in~\cite{Survey} the cave example is the go to example for learning
+	in~\cite{Survey} the cave example is the go-to example for learning
 	zero knowledge protocols.
 
 	Peggy has stumbled across a magical cave. Upon entering the cave
@@ -201,18 +199,19 @@ John T. McCall\\
 	If Peggy doesn't know the word, about there is a 50\% chance that Victor
 	will choose the path she did not start down. If this happens there is
 	no way that she can return down the correct path. The experiment should
-	be repeated until Victor either discovers Peggy is a liar becuase she
+	be repeated until Victor either discovers Peggy is a liar because she
 	returned down the wrong path, or until he is sufficiently satisfied
 	that she does indeed know the word.
 
-	Is this a zero knowledge protocol? It satisfies completeness because
-	if Peggy knows the word she will be able to convince Victor. It is
-	sound because if Peggy doens't know the word she will not be able to
-	convince Victor unless she was very lucky. Finally it is zero knowledge
-	because if Victor follows the protocol he will not be able to learn
-	anything besides whether or not Peggy knows the word. Since this
-	protocol satisfies these three conditions it is in fact a zero knowledge
-	protocol.	
+	This is a zero knowledge protocol because it satisfies each of the three
+	requirements. It satisfies completeness because	if Peggy knows the word
+	she will be able to convince Victor. It is sound because if Peggy does not 
+	know the word, she will not be able to convince Victor unless she was very
+	lucky. Finally it is zero knowledge because if Victor follows the protocol
+	he will not be able to learn anything besides whether or not Peggy knows 
+	the word.
+
+	\subsubsection{Fiat-Shamir Protocol}
 
 \section{Compilers}
 	This section will provide some basic background information about compilers.
@@ -257,7 +256,7 @@ John T. McCall\\
 %     pdflatex bibtex pdflatex pdflatex
 % in order to see all the citation references correctly.
 
-\end{document} 
+\end{document}
 
 
 
