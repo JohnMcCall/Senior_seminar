@@ -211,7 +211,7 @@ John T. McCall\\
 	he will not be able to learn anything besides whether or not Peggy knows 
 	the word.
 
-	\subsubsection{Fiat-Shamir Protocol}
+	\subsubsection{Zero-Knowledge Proof for Graph Isomorphism}
 
 \section{Compilers}
 	This section will provide some basic background information about compilers.
@@ -224,15 +224,48 @@ John T. McCall\\
 	how they are using their compilers.
 
 	\subsection{Sigma-Protocols}
-		Here I'll talk about Sigma-protocols and how they are used in the following
-		compilers.
+	% I want to touch this area up and make it more clear just what Sigma
+	% Protocols are. I also want to talk about the compiler that the authors made
+		$\Sigma$-Protocols are the basis of essentially all efficient zero knowledge
+		proofs of knowledge used in practice today. Using a homomorphism, such as an
+		RSA function, one can use $\Sigma$-protocols to prove knowledge of a secret
+		preimage. There are several variations of these proofs. One such variation is
+		the "AND-proof" which allows simultaneous proving of multiple preimages under
+		different homomorphisms. There are also "OR-proofs" and proofs which show
+		that different preimages fulfill a set of linear relations.~\cite{Sigma:2009}
 		
-		Note to myself: Look into the Fiat-Shamir heuristic
-	\subsection{ZKCrypt}
-		Here I'll talk about ZKCrypt, it's implementation and verification steps.
+		Many practical applications use techniques based on $\Sigma$-protocols. Examples
+		include identification schemes, interactive verifiable computation, group
+		signatures, secure watermark detection, and efficient secure multiparty
+		computation. Many of these applications exist only at the specification level,
+		however real-world applications using zero knowledge proofs of knowledge have
+		recently been produced.
 		
 	\subsection{ZKPDL}
-		Similar to ZKCrypt section.
+		Meiklejohn et al. provide a language called the Zero-Knowledge Proof Description
+		Language (ZKPDL)~\cite{ZKPDL:2010}. This language makes it much easier for both
+		programmers and 	cryptographers to implement protocols. The authors also provide
+		a library called Cashlib, which provides the language access to other simple
+		cryptographic protocols such as electronic cash, blind signatures, verifiable
+		encryption and fair exchange.
+		
+		This language provides two main benefits. Firstly, the programmer no longer 
+		has to worry about implementing cryptographic primitives, efficient mathematical
+		operations, or generating and processing messages. ZKPDL allows the user to
+		specify the protocol similarly to how it would be specified in a theoretical
+		description. Secondly, the library makes performance optimizations based on an
+		analysis of the protocol description. 
+		
+		The authors also provide an interpreter for ZKPDL, implemented in C++, which
+		preforms one of two actions depending on the role of the user. On the prover
+		side it outputs a zero knowledge proof. On the verifier side it takes a proof
+		and verifies its correctness. Regardless of the role of the user, the program
+		given to the interpreter is the same. The interpreter also performs a number of
+		optimizations including precomputations,	caching, and translations to prevent
+		redundant proofs. 
+		
+	\subsection{ZKCrypt}
+		Here I'll talk about ZKCrypt, it's implementation and verification steps.
 
 \section{Applications}
 	Here I'll talk about how those compilers are used in the real world.
