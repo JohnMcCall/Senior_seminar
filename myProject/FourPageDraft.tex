@@ -292,18 +292,90 @@ John T. McCall\\
 		
 		In this example, the authors are proving that the value $x_{1}$ contained within
 		the commitment $c_{1}$ is the product of $x_{2}$ and $x_{3}$ which are contained
-		in $c_{2}$ and $c_{3}$ respectively. Because both blocks are optional, they are considered
-		independent from each other, so a lines are repeated between the two.
+		in $c_{2}$ and $c_{3}$ respectively. Because both blocks are optional, they are
+		considered independent from each other, so a lines are repeated between the two.
 		
 	\subsection{ZKCrypt}
 		Here I'll talk about ZKCrypt, it's implementation and verification steps.
 
 \section{Applications}
-	Here I'll talk about how those compilers are used in the real world.
+	In general, zero knowledge protocols have many applications. Authentication systems,
+	electronic voting, electronic ticketing, Direct Anonymous Attestation (DAA), and
+	Off-the-Record messaging~\cite{ZKCrypt:2012, ZKPDL:2010} are just a few examples.
+	The applications that will be focused on in this paper are electronic cash, and
+	deniable authentication.
 	
 	\subsection{Electronic Cash}
+	Electronic Cash, or e-cash, is an electronic currency. E-cash maintains the buyer's
+	anonymity, unlike a debit or credit card that is used to purchase something 
+	electronically. Bitcoins are a recent example of an e-cash system.
 	
-	\subsection{Another Application}
+	Okamota and Ohta describe the ideal electronic cash system in~\cite{Ecash:1991}.
+	The ideals are as follows:
+	
+	\begin{enumerate}
+		\item \textit{Independence}: The security of electronic cash cannot depend on any
+		physical condition. Then the cash can be transferred through networks.
+		
+		\item \textit{Security}: The ability to copy (reuse) and forge the cash must be
+		prevented.
+		
+		\item \textit{Privacy (Untraceability)}: The privacy of the user should be
+		protected. That is, the relationship between the user and their purchases must
+		be untraceable by anyone.
+		
+		\item \textit{Off-line payment}: When a user pays the electronic cash to a shop, 
+		the procedure between the user and the shop should be executed in an off-line
+		manner. That is, the shop does not need to be linked to the host in user's
+		payment procedure.
+		
+		\item \textit{Transferability}: The cash can be transferred to other users.
+		
+		\item \textit{Dividability}: One issued piece of cash worth value $C$ (dollars)
+		can be subdivided into many pieces such that each subdivided piece is worth any
+		desired value less than $C$ and the total value of all the pieces is equivalent
+		to $C$.
+	\end{enumerate}
+	
+	Almeida et al. describe briefly in~\cite{ZKCrypt:2012} how ZKCrypt can be used to
+	generate a proof for proving the identity of the user when withdrawing money from
+	a bank account. The user has to prove they have a secret key in order to successfully
+	withdraw money. 
+	
+	The authors state the proof goal as:
+	\begin{align*}
+	ZPK\left[(u_{1}, u_{2}): I = g^{u_{1}}_{1}g^{u_{2}}_{2}\right].
+	\end{align*}
+	In this goal, $I, g_{1}, g_{2} \in \mathbb{Z}^{*}_{p}$ such that ord $g_{1}$ = ord
+	$g_{2}$ = $q$, where $q|(p - 1)$ and $p, q \in \mathbb{P}$. The secrets $u_{1}, u_{2}$
+	are elements of $\mathbb{Z}_{q}$. A single instance of the $\Sigma^{\Phi}$-protocol
+	is enough to realize this goal.
+	
+	Meiklejohn et al. also give this example, a user proving their identity to the bank,
+	implemented in ZKDPL. The program for this looks like: 
+	\begin{verbatim}
+	proof:
+	  given:
+	  	group: cashGroup = <f, g, h, h1, h2>
+	  	elements in cashGroup: A, pk_u
+	  	  commitment to sk_u: A = g^sk_u * h^r_u
+	  prove knowledge of:
+	  	exponents in cashGroup: sk_u, r_u
+	  such that:
+	  	pk_u = g^sk_u
+	  	A = g^sk_u * h^r_u
+	\end{verbatim}
+	
+	When the bank has verified this proof, the bank and the user will run a protocol
+	which defines a wallet which contains $W$ coins, where $W$ is a system-wide
+	public parameter. When a user spends a coin, it is split up into two parts: an
+	endorsed part and an unendorsed part. Separately the two parts are worthless, but
+	together the coin becomes valid. First the unendorsed part is sent to the vendor
+	who proves its validity. The vendor then sends what the buyer has purchased. The
+	buyer sends the endorsed portion of the coin to the vendor upon receiving their
+	product.
+	
+	\subsection{Deniable Authentication}
 
 \section{Conclusion}
 	This is where I'll neatly wrap everything up.
