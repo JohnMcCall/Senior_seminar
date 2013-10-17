@@ -160,6 +160,8 @@ John T. McCall\\
 		$A$.~\cite{Survey}
 
 	\subsection{Examples}
+	%Write an example using the Lyrics of Billie Jean	
+	
 	Below are two examples of zero knowledge protocols. The first
 	example is easy to follow and just highlights how a zero knowledge
 	protocol functions. The second example is more in depth and shows
@@ -214,10 +216,39 @@ John T. McCall\\
 	\subsubsection{Zero-Knowledge Proof for Graph Isomorphism}
 
 \section{Compilers}
-	This section will provide some basic background information about compilers.
-
-	\subsection{Background}
+	There are many different types of compilers, single-pass compilers, multi-pass,
+	load-and-go, debugging compilers, optimizing compilers, and many combinations
+	of these. Different compilers do different things, but at their core all 
+	compilers must perform one function. Simply put, they must take a program as 
+	an input and output	an equivalent program in a different
+	language.~\cite{Compiler:1986} 
 	
+	The first compilers started to appear in the 1950s. Much of the early work
+	dealt with translating arithmetic formulas into machine code. At the time
+	compilers were notoriously difficult to implement, for instance it took
+	18 staff-years to implement the first Fortran compiler. Various languages,
+	programming	environments, and tools have been developed since then which
+	make implementing a compiler considerably easier.
+	
+	There are two parts to compilation, analysis and synthesis. Analysis breaks
+	up the source into pieces and creates an intermediate representation, usually
+	a syntax tree, of the program. Synthesis constructs the target program from
+    the representation. There are a few different types of analysis that a compiler
+    can perform, such as:
+    
+    \begin{enumerate}
+    \item \textit{Linear (or Lexical) analysis}, in which the stream of characters
+    making up the source program is read from left-to-right and grouped into 
+    \textit{tokens} that are sequences of characters having a collective meaning.
+    
+    \item \textit{Hierarchical analysis}, in which characters or tokens are grouped
+    hierarchically into nested collections with collective meaning.
+    
+    \item \textit{Semantic analysis}, in which certain checks are performed to ensure
+    that the components of a program fit together meaningfully.
+    \end{enumerate}
+    
+    
 
 \section{Zero Knowledge Compilers}
 	This section will be the main section. Here I will talk about my core sources and
