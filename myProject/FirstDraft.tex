@@ -10,6 +10,7 @@
 
 \documentclass{sig-alternate}
 \usepackage{amsmath}
+\usepackage{verbatim} 
 
 \begin{document}
 
@@ -198,8 +199,6 @@ John T. McCall\\
 	lucky. Finally it is zero knowledge because if Victor follows the protocol
 	he will not be able to learn anything besides whether or not Peggy knows 
 	the word.
-
-	\subsubsection{Zero-Knowledge Proof for Graph Isomorphism}
 	
 	\subsection{Notation}
 
@@ -261,8 +260,8 @@ John T. McCall\\
 		\begin{equation}\label{sigma-2}
 		\text{ZKP}[(w_{1},...,w_{m}):\bigwedge y_{i} = \phi_{i}(w_{1},...,w_{m})\land HLR(w_{1},...,w_{m})]
 		\end{equation}
-		In \eqref{sigma-2}, $HLR(w_{1},...,w_{m})$ denotes a system of homogeneous linear relations
-		among the preimages.
+		In \eqref{sigma-2}, $HLR(w_{1},...,w_{m})$ denotes a system of homogeneous linear
+		relations among the preimages.
 		
 		Some remarks about the proof goals: Equation \eqref{sigma-1} can be expressed
 		as an arbitrary monotone boolean formula, in other words a boolean formula
@@ -286,10 +285,8 @@ John T. McCall\\
 	\subsection{ZKPDL}
 		Meiklejohn et al. provide a language called the Zero-Knowledge Proof Description
 		Language (ZKPDL)~\cite{ZKPDL:2010}. This language makes it much easier for both
-		programmers and 	cryptographers to implement protocols. The authors also provide
-		a library called Cashlib, which provides the language access to other simple
-		cryptographic protocols such as electronic cash, blind signatures, verifiable
-		encryption and fair exchange.
+		programmers and 	cryptographers to implement protocols. The authors aim to enable
+		secure, anonymous electronic cash (e-cash) in network applications.
 		
 		This language provides two main benefits. Firstly, the programmer no longer 
 		has to worry about implementing cryptographic primitives, efficient mathematical
@@ -298,6 +295,11 @@ John T. McCall\\
 		description. Secondly, the library makes performance optimizations based on an
 		analysis of the protocol description. 
 		
+		Similarly to the language above, ZKPDL makes use of $\Sigma$-Protocols.
+		However, ZKPDL doesn't implement them directly. Instead, they use the 
+		Fiat-Shamir heuristic, which transforms $\Sigma$-protocols into non-interactive
+		zero-knowledge proofs.
+		
 		The authors also provide an interpreter for ZKPDL, implemented in C++, which
 		preforms one of two actions depending on the role of the user. On the prover
 		side it outputs a zero knowledge proof. On the verifier side it takes a proof
@@ -305,12 +307,35 @@ John T. McCall\\
 		given to the interpreter is the same. The interpreter also performs a number of
 		optimizations including precomputations, caching, and translations to prevent
 		redundant proofs. 
+
+		Two types of variables can be declared in this language: group objects
+		and numerical objects. Group generators can also be declared but this 
+		is optional. Numerical objects can either be declared in a list of variables
+		or by having their type specified by the user. Valid types are: \texttt{element},
+		\texttt{exponent}, and \texttt{integer}. 		
 		
 		A program written in this language is split into two blocks: a computation block,
 		and a proof block. Both blocks are optional, if the user is only interested in the
 		computation they can just write that. Alternatively, if the user has all the computations
-		done they can just write the proof block. Here is a sample of code written in ZKPDL.
+		done they can just write the proof block. 
 		
+		The computation block can be further split into two blocks: the \texttt{given} block
+		and the \texttt{compute} block. In the \texttt{given} block the parameters are specified
+		as well as any values which are necessary for the computation that the user has already
+		computed. The \texttt{compute} block carries out the given computations. There are two
+		types of computations: picking a random value, and defining a value by setting it
+		equal to the right-hand side of an equation.
+		
+		The proof block is made up of three blocks: the \texttt{given} block, the 
+		\texttt{prove knowledge of} block, and the \texttt{such that} block. In the
+		\texttt{given} block the proof parameters are specified as well as any inputs
+		known publicly to both the prover and the verifier. The inputs known privately to
+		the prover are specified in the \texttt{prove knowledge of block}. In the 
+		\texttt{such that} block the relations between all the values are specified.
+		The zero-knowledge proof will be a proof that all these relations are satisfied.
+		
+	    
+	    \begin{comment}
 		\begin{verbatim}
 		computation: // compute values required for proof
 		  given: // declarations
@@ -336,9 +361,19 @@ John T. McCall\\
 		the commitment $c_{1}$ is the product of $x_{2}$ and $x_{3}$ which are contained
 		in $c_{2}$ and $c_{3}$ respectively. Because both blocks are optional, they are
 		considered independent from each other, so a lines are repeated between the two.
+		\end{comment}
 		
 	\subsection{ZKCrypt}
-		Here I'll talk about ZKCrypt, it's implementation and verification steps.
+		Almeida et al. in~\cite{ZKCrypt:2012} present ZKCrypt, an optimizing cryptographic
+		compiler. Similar to the above languages, ZKCrypt is also based on $\Sigma$-Protocols.
+		Using recent developments, ZKCrypt can achieve ``an unprecedented level of confidence
+		among cryptographic compilers"~\cite{ZKCrypt:2012}. Specifically these developments are:
+		\textit{verified compilation}, where the correctness of a compiler is proved once and for
+		all, and \textit{verifying compilation}, where the correctness of a compiler is checked on
+		each run. ZKCrypt uses these techniques by implementing two separate compilers, one of which
+		is a verified compiler and the other a verifying compiler. The verified compiler generates
+		a reference implementation. The verifying compiler outputs an optimized implementation
+		which is provably equivalent to the reference implementation. 
 
 \section{Applications}
 	In general, zero knowledge protocols have many applications. Authentication systems,
@@ -352,7 +387,7 @@ John T. McCall\\
 	anonymity, unlike a debit or credit card that is used to purchase something 
 	electronically. Bitcoins are a recent example of an e-cash system.
 	
-	Okamota and Ohta describe the ideal electronic cash system in~\cite{Ecash:1991}.
+	Okamoto and Ohta describe the ideal electronic cash system in~\cite{Ecash:1991}.
 	The ideals are as follows:
 	
 	\begin{enumerate}
