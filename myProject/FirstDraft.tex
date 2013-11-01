@@ -11,9 +11,6 @@
 \documentclass{sig-alternate}
 \usepackage{amsmath}
 
-\newtheorem{interactiveProof}{Definition}
-\newtheorem{zeroKnowledge}{Definition}
-
 \begin{document}
 
 % --- Author Metadata here ---
@@ -110,57 +107,46 @@ John T. McCall\\
 	other party, called the \textit{verifier}, that a given statement is true. Sometimes
 	the statement is that the prover possesses a particular piece of information. This
 	is a special case of zero knowledge protocol called a \textit{zero knowledge proof
-	of knowledge}~\cite{Wiki}.
+	of knowledge}~\cite{Wiki}. Formally, a zero knowledge proof is a type of interactive
+	proof.
 	
-	\subsection{Definition}
-		Formally, a zero knowledge proof is a type of interactive proof. Mohr gives
-		a concise definition in~\cite{Survey}.
-	
-		\begin{interactiveProof}
-			An interactive proof system for a set $S$ is a two-party game between a
-			\textit{verifier} executing a probabilistic polynomial-time strategy and
-			a \textit{prover} which executes a computationally unbound strategy 
-			satisfying:
+	An interactive proof system for a set $S$ is an interaction between a
+	\textit{verifier} executing a probabilistic polynomial-time strategy and
+	a \textit{prover} which executes a computationally unbound strategy 
+	satisfying:
 			
-			\begin{itemize}
-				\item \textit{Completeness}: For every $ x \in S$, the verifier always
-				accepts after interacting with the prover on common input $x$
+	\begin{itemize}
+		\item \textit{Completeness}: For every $ x \in S$, the verifier always
+		accepts after interacting with the prover on common input $x$.
+			
+		\item \textit{Soundness}: For every $x \notin S$, the verifier		
+		rejects with probability at least $\frac{1}{p(|x|)}$.
+	\end{itemize}
 				
-				\item \textit{Soundness}: For some polynomial $p$, it holds that for
-				every $x \notin S$ and every potential strategy $P^{*}$, the verifier
-				rejects with probability at least $\frac{1}{p(|x|)}$ after interacting
-				with $P^{*}$ on common input $x$.
-			\end{itemize}
+	To summarize: if an honest verifier is always convinced after interacting with
+	an honest prover, then the proof is complete. A proof is sound if a cheating
+	prover can only convince an honest verifier with some small probability~\cite{Survey}.	
+	For an interactive proof to be a zero knowledge proof it must also
+	satisfy the condition of \textit{zero knowledge}.	
+		
+	A proof is zero knowledge on (inputs from) the set $S$ if, for every feasible
+	strategy $B^{*}$, i.e. a strategy that is both sound and complete,
+	there exists a feasible computation $C^{*}$ so that the
+	following two probability ensembles are computationally indistinguishable:
 			
-		\end{interactiveProof}
-		
-		To summarize: if an honest verifier is always convinced after interacting with
-		an honest prover, then the proof is complete. A proof is sound if a cheating
-		prover can only convince an honest verifier with some small probability.
-		
-		For an interactive proof to be a zero knowledge proof it must
-		satisfy the condition of \textit{zero knowledge}.		
-		
-		\begin{zeroKnowledge}
-			A proof is zero knowledge on (inputs from) the set $S$ if, for every feasible
-			strategy $B^{*}$ there exists a feasible computation $C^{*}$ so that the
-			following two probability ensembles are computationally indistinguishable:
-			
-			\begin{itemize}
-				\item the output of $B^{*}$ after interacting with $A$ on common input
-				$x \in S$
+	\begin{itemize}
+		\item the output of $B^{*}$ after interacting with $A$ on common input
+		$x \in S$
 				
-				\item the output of $C^{*}$ on input $x \in S$
-			\end{itemize}						
+		\item the output of $C^{*}$ on input $x \in S$
+	\end{itemize}						
 			
-		\end{zeroKnowledge}
-		
-		In other words, any information, in this case $B^{*}$, that can be learned by
-		interacting with $A$ can also be learned without interacting with
-		$A$.~\cite{Survey}
+	In other words, any information, in this case $B^{*}$, that can be learned by
+	interacting with $A$ is the same as the information that can be learned 
+	without interacting with $A$~\cite{Survey}.
 
 	\subsection{Examples}
-	%Write an example using the Lyrics of Billie Jean	
+	%Write an example using the Lyrics of Billie Jean
 	
 	Below are two examples of zero knowledge protocols. The first
 	example is easy to follow and just highlights how a zero knowledge
@@ -179,8 +165,8 @@ John T. McCall\\
 	discovered a secret word that opens up a hidden door in the dead end,
 	connecting both paths.
 
-	Victor hears about this, and offers to buy the secret from Peggy for
-	\$1,000,000, which Peggy agrees to. Before giving Peggy the money Victor
+	Victor hears about this, and offers to buy the secret from Peggy
+	Before giving Peggy the money Victor
 	wants to be certain that Peggy actually knows this secret word. How can
 	Peggy (the prover) convince Victor (the verifier) that she knows the
 	word, without revealing what it is?
@@ -198,7 +184,7 @@ John T. McCall\\
 	If Victor says to return down the other path, she whispers the magic
 	word, goes through the door, and returns down the other path.
 
-	If Peggy doesn't know the word, about there is a 50\% chance that Victor
+	If Peggy doesn't know the word, there is a 50\% chance that Victor
 	will choose the path she did not start down. If this happens there is
 	no way that she can return down the correct path. The experiment should
 	be repeated until Victor either discovers Peggy is a liar because she
@@ -214,6 +200,8 @@ John T. McCall\\
 	the word.
 
 	\subsubsection{Zero-Knowledge Proof for Graph Isomorphism}
+	
+	\subsection{Notation}
 
 \section{Compilers}
 	There are many different types of compilers, single-pass compilers, multi-pass,
@@ -233,45 +221,68 @@ John T. McCall\\
 	There are two parts to compilation, analysis and synthesis. Analysis breaks
 	up the source into pieces and creates an intermediate representation, usually
 	a syntax tree, of the program. Synthesis constructs the target program from
-    the representation. There are a few different types of analysis that a compiler
-    can perform, such as:
+    the representation.
     
-    \begin{enumerate}
-    \item \textit{Linear (or Lexical) analysis}, in which the stream of characters
-    making up the source program is read from left-to-right and grouped into 
-    \textit{tokens} that are sequences of characters having a collective meaning.
-    
-    \item \textit{Hierarchical analysis}, in which characters or tokens are grouped
-    hierarchically into nested collections with collective meaning.
-    
-    \item \textit{Semantic analysis}, in which certain checks are performed to ensure
-    that the components of a program fit together meaningfully.
-    \end{enumerate}
+\section{Definitions/Terms}
+	I might need a small section here detailing some crypto/number theory
+	concepts that will be needed below.
     
     
 
 \section{Zero Knowledge Compilers}
-	This section will be the main section. Here I will talk about my core sources and
-	how they are using their compilers.
+	Due to the subtleties of implementing a zero knowledge proof they
+	can be difficult to get correct. For this reason work has gone into
+	developing zero knowledge compilers. A zero knowledge compiler is a
+	compiler which takes a proof goal as its input language
+	and outputs an implementation of a zero knowledge proof.
 
 	\subsection{Sigma-Protocols}
 	% I want to touch this area up and make it more clear just what Sigma
 	% Protocols are. I also want to talk about the compiler that the authors made
+		Bangerter et al. present in~\cite{Sigma:2009} a language and compiler
+		which generates sound and efficient zero knowledge proofs of knowledge
+		based on $\Sigma$-Protocols.	
+	
 		$\Sigma$-Protocols are the basis of essentially all efficient zero knowledge
-		proofs of knowledge used in practice today. Using a homomorphism, such as an
-		RSA function, one can use $\Sigma$-protocols to prove knowledge of a secret
-		preimage. There are several variations of these proofs. One such variation is
-		the "AND-proof" which allows simultaneous proving of multiple preimages under
-		different homomorphisms. There are also "OR-proofs" and proofs which show
-		that different preimages fulfill a set of linear relations.~\cite{Sigma:2009}
+		proofs of knowledge used in practice today. $\Sigma$-Protocols are a class of
+		three move protocols, meaning three messages are exchanged between the prover
+		and the verifier. First the prover, P, sends a \textit{commitment} $t$ to the
+		verifier, V. V then responds with a random \textit{challenge} $c$ from a 
+		predefined set of challenges $C$. P computes a \textit{response} $s$ and sends
+		it to V who then decides whether to accept or reject the proof.
 		
-		Many practical applications use techniques based on $\Sigma$-protocols. Examples
-		include identification schemes, interactive verifiable computation, group
-		signatures, secure watermark detection, and efficient secure multiparty
-		computation. Many of these applications exist only at the specification level,
-		however real-world applications using zero knowledge proofs of knowledge have
-		recently been produced.
+		Bangerter et al's compiler can handle the class of proof goals consisting of
+		all expressions of the forms:
 		
+		\begin{equation}\label{sigma-1}
+		\text{ZKP}[(w_{1},...,w_{m}):\bigvee\bigwedge y_{i} = \phi_{i}(w_{i})]
+		\end{equation}
+		or
+		\begin{equation}\label{sigma-2}
+		\text{ZKP}[(w_{1},...,w_{m}):\bigwedge y_{i} = \phi_{i}(w_{1},...,w_{m})\land HLR(w_{1},...,w_{m})]
+		\end{equation}
+		In \eqref{sigma-2}, $HLR(w_{1},...,w_{m})$ denotes a system of homogeneous linear relations
+		among the preimages.
+		
+		Some remarks about the proof goals: Equation \eqref{sigma-1} can be expressed
+		as an arbitrary monotone boolean formula, in other words a boolean formula
+		with an arbitrarily number of $\land$ and $\lor$ symbols and has predicates of
+		the form $y_{j} = \phi_{j}(w_{j}).$ Also, in both of the above equations
+		linear relations can be proven \textit{implicitly}: as an example, we can
+		see that $\text{ZKP}[(w_{1},w_{2}):y = \phi(w_{1},w_{2} \land w_{1} = 2w_{2}]$
+		is equivalent to $\text{ZKP}[(w):y = \phi(2w,w)]$ by setting $w:=w_{2}$.
+		
+		The input language of this compiler requires \texttt{Declarations} of any
+		algebraic objects involved (such as: groups, elements, homomorphims, and
+		constants), \texttt{Assignments} from group elements to the group
+		they live in, and \texttt{Definitions} of homomorphims. Once all of these
+		have been set up, the protocol to be generated is specified in the
+		\texttt{SpecifiyProtocol [...]} block.
+		
+		The compiler outputs Java code for the $\Sigma$-Protocol, which
+		can then be used in other applications. Alternatively the compiler
+		can output \LaTeX documentation of the protocol if told to do so.
+				
 	\subsection{ZKPDL}
 		Meiklejohn et al. provide a language called the Zero-Knowledge Proof Description
 		Language (ZKPDL)~\cite{ZKPDL:2010}. This language makes it much easier for both
