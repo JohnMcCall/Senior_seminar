@@ -281,6 +281,36 @@ John T. McCall\\
 		The compiler outputs Java code for the $\Sigma$-Protocol, which
 		can then be used in other applications. Alternatively the compiler
 		can output \LaTeX documentation of the protocol if told to do so.
+		
+	\subsection{ZKCrypt}
+		Almeida et al. present, in~\cite{ZKCrypt:2012}, ZKCrypt, an optimizing cryptographic
+		compiler. Similar to the above language, ZKCrypt is also based on $\Sigma$-Protocols.
+		Using recent developments, ZKCrypt can achieve ``an unprecedented level of confidence
+		among cryptographic compilers"~\cite{ZKCrypt:2012}. Specifically these developments are:
+		\textit{verified compilation}, where the correctness of a compiler is proved once-and-for-all,
+		and \textit{verifying compilation}, where the correctness of a compiler is checked on
+		each run. ZKCrypt uses these techniques by implementing two separate compilers, one of which
+		is a verified compiler and the other a verifying compiler. The verified compiler generates
+		a reference implementation. The verifying compiler outputs an optimized implementation
+		which is provably equivalent to the reference implementation. 
+		
+		ZKCrypt has four main parts to its compilation process. They are: resolution, verified
+		compilation, implementation, and generation. The first phase, resolution, takes a
+		description of a proof goal, G, as input. This description is written in the the standard
+		notation for zero knowledge proofs. G is converted into a resolved goal
+		G$_{\textrm{res}}$, in which
+		high-level range restrictions are converted into proofs of knowledge of preimages under
+		homomorphisms. The next phase, verified compilation, takes G$_{\textrm{res}}$ and 
+		outputs I$_{\textrm{ref}}$,
+		a reference implementation in the language of CertiCrypt, which is a toolset used in
+		the construction and verification of cryptographic proofs. At this point a 
+		once-and-for-all proof of correctness is done to guarantee that I$_{\textrm{ref}}$
+		satisfies the desired security properties. The implementation phase
+		also takes G$_{\textrm{res}}$ as input however it outputs I$_{\textrm{opt}}$, an
+		optimized implementation. An equivalence checker is used to prove that I$_{\textrm{ref}}$
+		and I$_{\textrm{opt}}$ are semantically equivalent. In the final phase, generation,
+		the optimized implementation is converted into C and Java implementations of the
+		protocol.
 				
 	\subsection{ZKPDL}
 		Meiklejohn et al. provide a language called the Zero-Knowledge Proof Description
@@ -362,18 +392,7 @@ John T. McCall\\
 		in $c_{2}$ and $c_{3}$ respectively. Because both blocks are optional, they are
 		considered independent from each other, so a lines are repeated between the two.
 		\end{comment}
-		
-	\subsection{ZKCrypt}
-		Almeida et al. in~\cite{ZKCrypt:2012} present ZKCrypt, an optimizing cryptographic
-		compiler. Similar to the above languages, ZKCrypt is also based on $\Sigma$-Protocols.
-		Using recent developments, ZKCrypt can achieve ``an unprecedented level of confidence
-		among cryptographic compilers"~\cite{ZKCrypt:2012}. Specifically these developments are:
-		\textit{verified compilation}, where the correctness of a compiler is proved once and for
-		all, and \textit{verifying compilation}, where the correctness of a compiler is checked on
-		each run. ZKCrypt uses these techniques by implementing two separate compilers, one of which
-		is a verified compiler and the other a verifying compiler. The verified compiler generates
-		a reference implementation. The verifying compiler outputs an optimized implementation
-		which is provably equivalent to the reference implementation. 
+
 
 \section{Applications}
 	In general, zero knowledge protocols have many applications. Authentication systems,
