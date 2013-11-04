@@ -39,68 +39,52 @@ John T. McCall\\
 \maketitle
 
 \begin{abstract}
-<Insert Abstract Here>
+In this paper I give a brief introduction to zero knowledge protocols,
+as well as a brief introduction to compilers. I then introduce a few
+ideas from cryptography needed to better understand why the compilers do
+what they do. Once we have the appropriate background, I discus three different 
+implementations of zero knowledge compilers. Then I go into detail about
+an application of zero knowledge proofs and these compilers.
 \end{abstract}
 
-\terms{Need to figure this out yet}
+\terms{Zero Knowledge Protocols}
 
 \keywords{Zero Knowledge Protocols, Compilers}
 
 \section{Introduction}
-	I will focus on Zero-Knowledge Compilers which are compilers that automatically generate Zero-Knowledge proofs. This is how I plan to use the following sources:
-	\begin{itemize}
-		\item I expect~\cite{ZKCrypt:2012, Sigma:2009, ZKPDL:2010} to be my core sources, depending on how relevent~\cite{ZKPDL:2010} turns out to be I'll replace it with a better source.
-		\item I will use~\cite{MentalGame:1987, Survey, Children:1987} for background information and examples of Zero-Knowledge Protocols. 
-		\item I will need to find some papers for background information on compilers.
-	\end{itemize}
+	Zero knowledge protocols provide a way of proving that a statement is true
+	without revealing anything other than the correctness of this claim. Zero
+	knowledge protocols have practical applications in cryptography and
+	are used in many applications. While some applications only exist
+	on a specification level, a direction of research has produced real-world
+	applications. One such example is Direct Anonymous Attestation (DAA),
+	a privacy-enhancing mechanism for remote authentication of computing
+	platforms, which has been adopted by the Trusted Computing Group (TCG).
+	
+	Traditionally, the design of practical zero knowledge protocols
+	is done by hand. Designers use standard arguments and tricks which
+	can be combined and repeated in various combinations to provide the 
+	desired, secure, protocol. There are a few problems with this type
+	of method however. The implementations tend to be time-consuming
+	and error-prone. Minor changes in the protocol specification often
+	lead to major changes in the implementaion. The protocols are usually
+	designed by cryptographers and implemented by software engineers. The
+	cryptographers typically are not skilled in implementation matters and
+	the software engineers typically have a hard time understanding the
+	complexities of the zero knowledge protocols~\cite{Sigma:2009}. 
 
-	As stated above I need to find some sources about compilers. I probably will need to find more papers dealing with ZK-Compilers as well.
+	Zero knowledge compilers help to alleviate these issues by providing
+	a way to automatically generate zero knowledge protocols for a large
+	class of proof goals. They allow developers to implement these protocols
+	without having a in depth knowledge of cryptography and without having to
+	worry about introducing security flaws in their implementations.
 
-	\subsection{Key Points}
-	\textbf{What main problems(s) or questions(s) does the research address?}
-	
-	The main problem that the research address is how to create reliable zero knowledge
-	protocols. They can be difficult to define and even harder to verify. Zero knowledge
-	compilers help because they can efficiently generate zero knowledge protocols, and
-	because of how they are constructed the user can trust that they will work.
-	
-	\textbf{What are the key contributions of each of your main sources?}
-	
-	Source~\cite{ZKCrypt:2012} provides a great deal of information about their zero
-	knowledge compiler, ZKCrypt. They go into detail about zero knowledge protocols, 
-	how their compiler produces them, and they give a proof verifying that their protocols
-	are valid. They also talk about a few applications of their compiler.
-	
-	Source~\cite{ZKPDL:2010} talks in depth about ZKPDL, which is a language they created
-	for writing zero knowledge protocols. They also created an interpreter for this
-	language, which performs optimizations to lower computational and space overhead.
-	This paper also provides an example dealing with electronic cash.
-	
-	Source~\cite{Sigma:2009} uses $\Sigma$-Protocols in a compiler to automatically 
-	generate sound and efficient zero knowledge proofs of knowledge. The compiler
-	automatically generates the implementation of the protocol in Java, or it can output
-	a description of the protocol in \LaTeX.
-	
-	\textbf{How are the main sources related to each other?}
-	
-	The main sources all use compilers to generate zero knowledge protocols, but the
-	ways they are implemented are all different so there is some room for comparison.
-	All the compilers are also based off $\Sigma$-Protocols, or variations of $\Sigma$-
-	Protocols.
-	
-	\textbf{What is the state of the research?}
-	
-	The current state is that the compilers have been implemented and tested. They all
-	provided enough data to back up their research. Most of the work they are doing now
-	will extend the applications of their compilers to support other proof types.
-	
-	\textbf{What background material will you need to present in order for your audience to understand the research?}
-	
-	I will need to provide background information on zero knowledge protocols and
-	compilers. It's probably more important that I focus on zero knowledge protocols and
-	only give basic compiler background.
-	
-
+	In sections 2 and 3, I provide background on zero knowledge protocols and
+	compilers respectively. In section 4, I talk about some concepts from
+	cryptography that are needed as before we can understand the compilers.
+	In section 5, I talk about three different zero knowledge compilers, one
+	that is based heavily on $\Sigma$-protocols, ZKCrypt, and ZKPDL. In section
+	6, I talk about electronic cash, an application of zero knowledge protocols.
 
 \section{Zero Knowledge Protocols}
 	Zero knowledge protocols, also referred to as zero knowledge proofs, are a type
