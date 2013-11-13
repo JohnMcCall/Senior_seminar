@@ -10,7 +10,7 @@
 
 \documentclass{sig-alternate}
 \usepackage{amsmath}
-\usepackage{verbatim} 
+\usepackage{verbatim}
 
 \begin{document}
 
@@ -39,12 +39,19 @@ John T. McCall\\
 \maketitle
 
 \begin{abstract}
-In this paper I give a brief introduction to zero knowledge protocols,
-as well as a brief introduction to compilers. I then introduce a few
-ideas from cryptography needed to better understand why the compilers do
-what they do. Once we have the appropriate background, I discuss three different 
-implementations of zero knowledge compilers. Then I go into detail about
-an application of zero knowledge proofs and these compilers.
+Zero knowledge protocols have useful applications in cryptography,
+however they are usually designed by hand. They can be difficult to
+design correctly, and it can be easy to make mistakes, as zero knowledge 
+protocols are complex structures. Even if they are designed perfectly,
+a programmer tasked with implementing it could find themselves in over
+their head, especially if they lack a deep cryptographic background.
+The goal behind zero knowledge compilers is to help alleviate these
+concerns. Using a zero knowledge compiler, one can simply input a proof
+goal and the compiler will output an implementation of that goal in a
+high level language, such as Java or C++. The compiler also guarantees
+correctness of the protocol, which eliminates the risk of subtle mistakes
+in either the design or the implementation of the protocol.
+
 \end{abstract}
 
 \terms{Zero Knowledge Protocols}
@@ -67,7 +74,7 @@ an application of zero knowledge proofs and these compilers.
 	desired, secure, protocol. There are a few problems with this type
 	of method however. The implementations tend to be time-consuming
 	and error-prone. Minor changes in the protocol specification often
-	lead to major changes in the implementaion. The protocols are usually
+	lead to major changes in the implementation. The protocols are usually
 	designed by cryptographers and implemented by software engineers. The
 	cryptographers typically are not skilled in implementation matters and
 	the software engineers typically have a hard time understanding the
@@ -76,15 +83,15 @@ an application of zero knowledge proofs and these compilers.
 	Zero knowledge compilers help to alleviate these issues by providing
 	a way to automatically generate zero knowledge protocols for a large
 	class of proof goals. They allow developers to implement these protocols
-	without having a in depth knowledge of cryptography and without having to
+	without having an in depth knowledge of cryptography and without having to
 	worry about introducing security flaws in their implementations.
 
 	In sections 2 and 3, I provide background on zero knowledge protocols and
 	compilers respectively. In section 4, I talk about some concepts from
-	cryptography that are needed as before we can understand the compilers.
-	In section 5, I talk about three different zero knowledge compilers, one
-	that is based heavily on $\Sigma$-protocols, ZKCrypt, and ZKPDL. In section
-	6, I talk about electronic cash, an application of zero knowledge protocols.
+	cryptography that are needed in understanding the compilers.
+	In section 5, I talk about three different implementations of a zero knowledge 
+	compiler. Finally, in section 6, I talk about electronic cash, an application 
+	of zero knowledge protocols.
 
 \section{Zero Knowledge Protocols}
 	Zero knowledge protocols, also referred to as zero knowledge proofs, are a type
