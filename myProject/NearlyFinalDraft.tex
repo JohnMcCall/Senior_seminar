@@ -102,29 +102,27 @@ in either the design or the implementation of the protocol.
 	of knowledge}~\cite{Wiki}. Formally, a zero knowledge proof is a type of interactive
 	proof.
 	
-	An interactive proof system for a set $S$ is an interaction between a
+	An interactive proof system is an interaction between a
 	\textit{verifier} executing a probabilistic polynomial-time strategy and
-	a \textit{prover} which executes a computationally unbound strategy 
-	satisfying:
+	a \textit{prover} which executes a computationally unbound strategy.
+	satisfying the following properties:
 			
 	\begin{itemize}
-		\item \textit{Completeness}: For every $ x \in S$, the verifier always
-		accepts after interacting with the prover on common input $x$.
+		\item \textit{Completeness}: If the statement being proved is true, an
+		honest verifier (a verifier correctly following the protocol) will be
+		convinced after interacting with an honest prover.
 			
-		\item \textit{Soundness}: For every $x \notin S$, the verifier		
-		rejects with probability at least $\frac{1}{p(|x|)}$.
+		\item \textit{Soundness}: If the statement is false, no prover, either
+		honest or dishonest, will be able to convince an honest verifier, except
+		with a small probability.
 	\end{itemize}
-				
-	To summarize: if an honest verifier is always convinced after interacting with
-	an honest prover, then the proof is complete. A proof is sound if a cheating
-	prover can only convince an honest verifier with some small probability~\cite{Survey}.	
+	
 	For an interactive proof to be a zero knowledge proof it must also
 	satisfy the condition of \textit{zero knowledge}.	
-		
-	A proof is zero knowledge on (inputs from) the set $S$ if, for every feasible
-	strategy $B^{*}$, i.e. a strategy that is both sound and complete,
+	A proof is zero knowledge if, for every feasible
+	strategy, i.e. a strategy that is both sound and complete,
 	there exists a feasible computation $C^{*}$ so that the
-	following two probability ensembles are computationally indistinguishable:
+	following two statements are computationally indistinguishable:
 			
 	\begin{itemize}
 		\item the output of $B^{*}$ after interacting with $A$ on common input
