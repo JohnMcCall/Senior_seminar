@@ -119,21 +119,12 @@ in either the design or the implementation of the protocol.
 	
 	For an interactive proof to be a zero knowledge proof it must also
 	satisfy the condition of \textit{zero knowledge}.	
-	A proof is zero knowledge if, for every feasible
-	strategy, i.e. a strategy that is both sound and complete,
-	there exists a feasible computation $C^{*}$ so that the
-	following two statements are computationally indistinguishable:
-			
-	\begin{itemize}
-		\item the output of $B^{*}$ after interacting with $A$ on common input
-		$x \in S$
-				
-		\item the output of $C^{*}$ on input $x \in S$
-	\end{itemize}						
-			
-	In other words, any information, in this case $B^{*}$, that can be learned by
-	interacting with $A$ is the same as the information that can be learned 
-	without interacting with $A$~\cite{Survey}.
+	A proof is zero knowledge if any knowledge known by
+	the prover or the verifier before performing the proof is the same
+	as the knowledge known by either party after performing the proof.			
+	In other words, no additional knowledge is gained by either party because
+	of the proof. Another way of thinking about it is that the proof reveals 	
+	zero knowledge.~\cite{Survey}.
 
 	\subsection{Examples}
 	%Write an example using the Lyrics of Billie Jean
@@ -145,7 +136,7 @@ in either the design or the implementation of the protocol.
 	\subsubsection{The Magic Cave}
 	The classic example for zero knowledge protocols is the cave example.
 	First presented in~\cite{Children:1987} and then restated
-	in~\cite{Survey} the cave example is the go-to example for learning
+	in~\cite{Survey}, the cave example is the go-to example for learning
 	zero knowledge protocols.
 
 	Peggy has stumbled across a magical cave. Upon entering the cave
@@ -154,7 +145,7 @@ in either the design or the implementation of the protocol.
 	discovered a secret word that opens up a hidden door in the dead end,
 	connecting both paths.
 
-	Victor hears about this, and offers to buy the secret from Peggy
+	Victor hears about this, and offers to buy the secret from Peggy.
 	Before giving Peggy the money Victor
 	wants to be certain that Peggy actually knows this secret word. How can
 	Peggy (the prover) convince Victor (the verifier) that she knows the
@@ -188,21 +179,73 @@ in either the design or the implementation of the protocol.
 	he will not be able to learn anything besides whether or not Peggy knows 
 	the word.
 	
-	\subsection{Notation}
-	We will use notation described in~\cite{Sigma:2009} to denote zero knowledge
-	proofs. An example of this notation is as follows:
+	\subsubsection{Hamiltonian Cycles}
+	A more practical example is proving that one knows a Hamiltonian
+	cycle for a graph, without revealing what the cycle is. Before
+	going into the example we first need some graph theory background.
+	A \textit{cycle} is a sequence of vertices which starts and ends at
+	the same vertex, and two consecutive vertices in the sequence are
+	adjacent (connected) to each other in the graph. A \textit{Hamiltonian
+	path}, is a sequence of vertices in which each vertex in the graph is
+	listed exactly once, and similarly to above two consecutive vertices in
+	the sequence are adjacent in the graph. Finally, a \textit{Hamiltonian cycle}
+	is a Hamiltonian path which is also a cycle. In other words it is a
+	sequence of vertices which begins and ends with the same vertex, and
+	each vertex in the graph is listed exactly once (aside from the first/last
+	vertex). 
 	
-	\begin{center}
-		$\text{ZKP}[(w_{1},w_{2}):x_{1} = \phi_{1}(w_{1})$
-	\end{center}
+	%% Find a Picture of a Hamiltonian Cycle to put in here.
+	
+	For a large enough
+	graph, finding a Hamiltonian cycle is infeasible. In fact this problem, 
+	is \textit{NP-complete}. NP-complete problems have the property that
+	any known solution can be efficiently verified, however there is no known
+	efficient way to find said solution. The time required to solve an 
+	NP-complete problem increases rapidly as the size of the problem grows.
+	Using current computing power, even moderately sized problems can take 
+	billions of years to solve.
+	
+	Another important definition is that of graph isomorphism. An
+	isomorphism, $f:V(G) \rightarrow V(H)$, of graphs $G$ and $H$ is a 
+	bijection between the vertex
+	sets of $G$ and $H$ such that any two vertices $u$ and $v$ of $G$ are
+	adjacent in $G$ if and only if $f(u)$ and $f(v)$ are adjacent in $H$.
+		
+	Now that we have defined a Hamiltonian cycle, we can set up the example.
+	Here the prover, $P$, knows a Hamiltonian Cycle for a graph, $G$. The
+	verifier, $V$, has knowledge of $G$ but not the cycle. For $P$ to show
+	$V$ that they know the cycle, they must perform several rounds of the 
+	following protocol.
+	
+	\begin{itemize}
+		\item At the beginning of each round, $P$ constructs $H$, graph which
+		is isomorphic to $G$. It is simple to translate a Hamiltonian cycle
+		between two isomorphic graphs, so since $P$ knows a Hamiltonian cycle
+		for $G$ they must know one for $H$ as well.
+		
+		\item $P$ commits to $H$, either using a cryptographic commitment
+		scheme or some other method. Doing this means that $P$ cannot change
+		$H$, while at the same time $V$ has no knowledge of $H$.
+		
+		\item $V$ then randomly asks $P$ to do one of two things. Either show
+		the isomorphism between $H$ and $G$, or show a Hamiltonian cycle in $H$.
+		
+		\item If $P$ was asked to show that the two graphs are isomorphic, they
+		start by revealing $H$ to $V$. They also provide the vertex translations
+		which map $G$ to $H$. $V$ can then verify that the two graphs are isomorphic.
+		
+		\item If $P$ was asked to show a Hamiltonian cycle in $H$, they first 
+		translate the cycle from $G$ onto $H$. They then reveal to $V$ the 
+		edges of $H$ which are a part of the Hamiltonian cycle. This is
+		enough for $V$ to verify that $H$ contains a Hamiltonian cycle.
+	\end{itemize}
 
 \section{Compilers}
-	There are many different types of compilers, single-pass compilers, multi-pass,
-	load-and-go, debugging compilers, optimizing compilers, and many combinations
-	of these. Different compilers do different things, but at their core all 
-	compilers must perform one function. Simply put, they must take a program as 
-	an input and output	an equivalent program in a different
-	language.~\cite{Compiler:1986} 
+	Fundamentally, what a compiler does is take a language and convert it into
+	another language. For example, the java compiler takes the java programming
+	language as input and outputs java bytecode. There are many different types of
+	compilers, single-pass compilers, multi-pass, load-and-go, debugging compilers,
+	optimizing compilers, and many combinations of these.~\cite{Compiler:1986} 
 	
 	The first compilers started to appear in the 1950s. Much of the early work
 	dealt with translating arithmetic formulas into machine code. At the time
@@ -216,6 +259,13 @@ in either the design or the implementation of the protocol.
 	a syntax tree, of the program. Synthesis constructs the target program from
     the representation.
     
+    The compilers discussed in this paper take, as input, an abstract proof 
+    specification,  written in languages designed specifically for this problem,
+    and output an implementation of the given specification in a high-level language,
+    usually C++ or Java.
+    
+    %% Add a picture of a Syntax Tree Here
+    
 \section{Definitions/Terms}
 	<<Author's Note: I recently decided I needed this section and still need
 	to flesh it out.>>    
@@ -227,6 +277,14 @@ in either the design or the implementation of the protocol.
 	developing zero knowledge compilers. A zero knowledge compiler is a
 	compiler which takes a proof goal as its input language
 	and outputs an implementation of a zero knowledge proof.
+	
+	\subsection{Notation}
+	We will use notation described in~\cite{Sigma:2009} to denote zero knowledge
+	proofs. An example of this notation is as follows:
+	
+	\begin{center}
+		$\text{ZKP}[(w_{1},w_{2}):x_{1} = \phi_{1}(w_{1})$
+	\end{center}
 
 	\subsection{Sigma-Protocols}
 	% I want to touch this area up and make it more clear just what Sigma
