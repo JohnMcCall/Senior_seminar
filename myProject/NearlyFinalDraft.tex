@@ -183,18 +183,23 @@ in either the design or the implementation of the protocol.
 	A more practical example is proving that one knows a Hamiltonian
 	cycle for a graph, without revealing what the cycle is. Before
 	going into the example we first need some graph theory background.
-	A \textit{cycle} is a sequence of vertices which starts and ends at
-	the same vertex, and two consecutive vertices in the sequence are
-	adjacent (connected) to each other in the graph. A \textit{Hamiltonian
+	A \textit{cycle} is a sequence of vertices, two consecutive vertices
+	in the sequence are	adjacent (connected) to each other in the graph,
+	which starts and ends at the same vertex. A \textit{Hamiltonian
 	path}, is a sequence of vertices in which each vertex in the graph is
-	listed exactly once, and similarly to above two consecutive vertices in
-	the sequence are adjacent in the graph. Finally, a \textit{Hamiltonian cycle}
+	listed exactly once. Finally, a \textit{Hamiltonian cycle}
 	is a Hamiltonian path which is also a cycle. In other words it is a
 	sequence of vertices which begins and ends with the same vertex, and
 	each vertex in the graph is listed exactly once (aside from the first/last
-	vertex). 
+	vertex)~\cite{Wiki:Hamiltonian}.
 	
-	%% Find a Picture of a Hamiltonian Cycle to put in here.
+	\begin{figure}
+	\centering
+	\psfig{file=HCycle.jpg, width=3.3in}
+	\caption{An example of a Hamiltonian cycle. The solid line marks the path.
+	Taken from~\cite{Wiki:Hamiltonian}.}
+	\label{fig:HCycle}
+	\end{figure}
 	
 	For a large enough
 	graph, finding a Hamiltonian cycle is infeasible. In fact this problem, 
@@ -225,7 +230,7 @@ in either the design or the implementation of the protocol.
 		
 		\item $P$ commits to $H$, either using a cryptographic commitment
 		scheme or some other method. Doing this means that $P$ cannot change
-		$H$, while at the same time $V$ has no knowledge of $H$.
+		$H$, and at the same time $V$ has no knowledge of $H$.
 		
 		\item $V$ then randomly asks $P$ to do one of two things. Either show
 		the isomorphism between $H$ and $G$, or show a Hamiltonian cycle in $H$.
@@ -239,6 +244,20 @@ in either the design or the implementation of the protocol.
 		edges of $H$ which are a part of the Hamiltonian cycle. This is
 		enough for $V$ to verify that $H$ contains a Hamiltonian cycle.
 	\end{itemize}
+	
+	This protocol is complete because if $P$ is an honest prover, they can easily
+	answer either question asked by $V$ by either providing the isomorphism which
+	they have, or by applying the isomorphism to the cycle in $G$ to demonstrate
+	a Hamiltonian cycle. This protocol is sound because if $P$ doesn't know the
+	cycle, they can either generate a graph isomorphic to $G$ or a Hamiltonian
+	cycle for another graph, but they cannot do both since they doesn't know a
+	Hamiltonian cycle for $G$. With a reasonable number of rounds it is
+	unrealistic for $P$ to fool $V$ in this manner.	This protocol is zero knowledge 
+	because in each round $V$ will only learn either the isomorphism of $H$ to $G$
+	or a Hamiltonian cycle in $H$. $V$ would need both pieces of information in
+	order to reconstruct the Hamiltonian cycle in $G$. Therefore, as long as $P$
+	can generate a distinct $H$ each round, $V$ will never discover the cycle in $G$.
+	
 
 \section{Compilers}
 	Fundamentally, what a compiler does is take a language and convert it into
