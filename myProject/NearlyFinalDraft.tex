@@ -285,14 +285,9 @@ in either the design or the implementation of the protocol.
     
     %% Add a picture of a Syntax Tree Here
     
-\section{Definitions/Terms}
-	<<Author's Note: I recently decided I needed this section and still need
-	to flesh it out.>>    
-    
-
 \section{Zero Knowledge Compilers}
-	Due to the subtleties of implementing a zero knowledge proof they
-	can be difficult to get correct. For this reason work has gone into
+	It is difficult to implement a zero knowledge protocol due to their
+	subtleties. For this reason work has gone into
 	developing zero knowledge compilers. A zero knowledge compiler is a
 	compiler which takes a proof goal as its input language
 	and outputs an implementation of a zero knowledge proof.
@@ -302,8 +297,17 @@ in either the design or the implementation of the protocol.
 	proofs. An example of this notation is as follows:
 	
 	\begin{center}
-		$\text{ZKP}[(w_{1},w_{2}):x_{1} = \phi_{1}(w_{1})$
+		$\text{ZKP}[(w_{1},w_{2}):x_{1} = \phi_{1}(w_{1}) \land  x_{2} = \phi_{2}(w_{2}) \land w_{1} = aw_{2}]$ 
 	\end{center}
+	
+	What this means is \textit{"proof of knowledge of $w_{1}, w_{2}$ such that 
+	$x_{1} = \phi_{1}(w_{1}), x_{2} = \phi_{2}(w_{2})$ and $w_{1} = aw_{2}$}.
+	The common convention is that knowledge of variables denoted by Greek
+	letters has to be proven, whereas knowledge of all other variables is
+	assumed to be known by both the prover and the verifier. Another thing
+	to note is that this is the notation for a \textit{proof-goal}, not
+	a protocol. A proof-goal describes what has to be proven, and there may
+	be several different protocols for the same proof-goal.
 
 	\subsection{Sigma-Protocols}
 	% I want to touch this area up and make it more clear just what Sigma
@@ -323,17 +327,17 @@ in either the design or the implementation of the protocol.
 		Bangerter et al's compiler can handle the class of proof goals consisting of
 		all expressions of the forms:
 		
-		\begin{equation}\label{sigma-1}
+		\begin{equation*}
 		\text{ZKP}[(w_{1},...,w_{m}):\bigvee\bigwedge y_{i} = \phi_{i}(w_{i})]
-		\end{equation}
+		\end{equation*}
 		or
-		\begin{equation}\label{sigma-2}
+		\begin{equation*}
 		\text{ZKP}[(w_{1},...,w_{m}):\bigwedge y_{i} = \phi_{i}(w_{1},...,w_{m})\land HLR(w_{1},...,w_{m})]
-		\end{equation}
-		In \eqref{sigma-2}, $HLR(w_{1},...,w_{m})$ denotes a system of homogeneous linear
-		relations among the preimages.
+		\end{equation*}
+		In the second equation, $HLR(w_{1},...,w_{m})$ denotes a system of 
+		homogeneous linear relations among the preimages.
 		
-		Some remarks about the proof goals: Equation \eqref{sigma-1} can be expressed
+		Some remarks about the proof goals: The first equation can be expressed
 		as an arbitrary monotone boolean formula, in other words a boolean formula
 		with an arbitrarily number of $\land$ and $\lor$ symbols and has predicates of
 		the form $y_{j} = \phi_{j}(w_{j}).$ Also, in both of the above equations
