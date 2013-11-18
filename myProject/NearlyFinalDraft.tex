@@ -129,9 +129,10 @@ in either the design or the implementation of the protocol.
 	\subsection{Examples}
 	%Write an example using the Lyrics of Billie Jean
 	
-	Below is an
-	example that highlights how a zero knowledge
-	protocol functions.
+	Below are two examples of zero knowledge protocols. The
+	first is a simple example which highlights how a zero knowledge
+	protocol functions. The second is a more practical example,
+	proving knowledge of a Hamiltonian cycle in a graph.
 	
 	\subsubsection{The Magic Cave}
 	The classic example for zero knowledge protocols is the cave example.
@@ -279,11 +280,11 @@ in either the design or the implementation of the protocol.
     the representation.
     
     The compilers discussed in this paper take, as input, an abstract proof 
-    specification,  written in languages designed specifically for this problem,
-    and output an implementation of the given specification in a high-level language,
-    usually C++ or Java.
+    specification or proof-goal, written in languages designed specifically 
+    for this problem, and output an implementation of the given specification in
+    a high-level language, usually C++ or Java.
     
-    %% Add a picture of a Syntax Tree Here
+    %% Add a picture of a Syntax Tree Here?
     
 \section{Zero Knowledge Compilers}
 	It is difficult to implement a zero knowledge protocol due to their
@@ -318,11 +319,11 @@ in either the design or the implementation of the protocol.
 	
 		$\Sigma$-Protocols are the basis of essentially all efficient zero knowledge
 		proofs of knowledge used in practice today. $\Sigma$-Protocols are a class of
-		three move protocols, meaning three messages are exchanged between the prover
-		and the verifier. First the prover, P, sends a \textit{commitment} $t$ to the
-		verifier, V. V then responds with a random \textit{challenge} $c$ from a 
-		predefined set of challenges $C$. P computes a \textit{response} $s$ and sends
-		it to V who then decides whether to accept or reject the proof.
+		three-move protocols, meaning three messages are exchanged between the prover
+		and the verifier. First the prover, $P$, sends a \textit{commitment} $t$ to the
+		verifier, $V$. $V$ then responds with a random \textit{challenge} $c$ from a 
+		predefined set of challenges $C$. $P$ computes a \textit{response} $s$ and sends
+		it to $V$ who then decides whether to accept or reject the proof.
 		
 		Bangerter et al's compiler can handle the class of proof goals consisting of
 		all expressions of the forms:
@@ -354,7 +355,7 @@ in either the design or the implementation of the protocol.
 		
 		The compiler outputs Java code for the $\Sigma$-Protocol, which
 		can then be used in other applications. Alternatively the compiler
-		can output \LaTeX documentation of the protocol if told to do so.
+		can output \LaTeX~documentation of the protocol if told to do so.
 		
 	\subsection{ZKCrypt}
 		Almeida et al. present, in~\cite{ZKCrypt:2012}, ZKCrypt, an optimizing cryptographic
