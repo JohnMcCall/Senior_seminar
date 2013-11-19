@@ -470,8 +470,6 @@ in either the design or the implementation of the protocol.
 
 
 \section{Applications}
-	<<Author's Note: This Section still needs some touching up>>
-
 	In general, zero knowledge protocols have many applications. Authentication systems,
 	electronic voting, electronic ticketing, Direct Anonymous Attestation (DAA), and
 	Off-the-Record messaging~\cite{ZKCrypt:2012, ZKPDL:2010} are just a few examples.
@@ -554,13 +552,41 @@ in either the design or the implementation of the protocol.
 	that there are efficient and secure ways of implementing them. In this paper we discussed
 	three zero knowledge compilers and thier associated input languages. Each of these compilers
 	hopes to aid in the implementation of zero knowledge protocols by offering a way for
-	developers to easily generate an implementation of a given proof goal. 
+	developers to easily generate an implementation of a given proof goal.
+	
+	\subsection{Current State and Future Work}
+	Currently, all three of the compilers presented in this paper have
+	been implemented in some form. The compiler outlined in~\cite{Sigma:2009}
+	has native support for two groups and allows users to define their own
+	groups. Future features of the compiler includes supporting efficient
+	proofs in hidden-order groups, as well as the automatic transformation
+	of the generated $\Sigma$-protocols into non-interactive zero knowledge
+	proofs.
+	
+	ZKCrypt has been implemented and applied to several cryptographic
+	problems, including electronic cash and deniable authentication.
+	Future work for the ZKCrypt compiler includes verifying the last
+	stage of the compiler chain, code generation. With this verified,
+	the whole compilation process will be verified correct.
+	
+	ZKPDL has also been implemented and has been applied to problems
+	such as electronic cash and verifiable encryption. Future work being
+	considered for ZKPDL includes adding more cryptographic primitives,
+	such as: encryption, signatures, and hash functions. Another interesting
+	possibility would be the analysis of ZKDPL programs by providing automatic
+	verification of protocols and the ability to identify security errors.
+	Work is also being done to increase performance on multicore architectures
+	by analyzing dependencies among expressions evaluated by the interpreter.	
+	
+	\subsection{Acknowledgments}
+	// TODO
 
 % The following two commands are all you need to
 % produce the bibliography for the citations in your paper.
 \bibliographystyle{abbrv}
 % annotated_bibliography.bib is the name of the BibTex file containing 
-% all the bibliography entries for this example. Note that you *don't* include the .bib ending
+% all the bibliography entries for this example. Note that you *don't* include the 
+% .bib ending
 % in the \bibliography command.
 \bibliography{annotated_bibliography}
 
