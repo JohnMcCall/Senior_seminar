@@ -419,6 +419,11 @@ in either the design or the implementation of the protocol.
 		and I$_{\textrm{opt}}$ are semantically equivalent. In the final phase, generation,
 		the optimized implementation is converted into C and Java implementations of the
 		protocol.
+		
+		An example of this process deals with an anonymous credential system. An anonymous
+		credential system consists of a collection of protocols to issue, revoke, and prove
+		possession of credentials. IBM's Idemix system is an anonymous credential system
+		which uses Camenisch-Lysyanskana (CL) signatures. 
 				
 	\subsection{ZKPDL}
 		Meiklejohn et al. provide a language called the Zero-Knowledge Proof Description
@@ -449,35 +454,34 @@ in either the design or the implementation of the protocol.
 		Two types of variables can be declared in this language: group objects
 		and numerical objects. Group generators can also be declared but this 
 		is optional. Numerical objects can either be declared in a list of variables
-		or by having their type specified by the user. Valid types are: \texttt{element},
-		\texttt{exponent}, and \texttt{integer}. 		
+		or by having their type specified by the user. Valid types are: element,
+		exponent, and integer.
 		
-		A program written in this language is split into two blocks: a computation block,
-		and a proof block. Both blocks are optional, if the user is only interested in the
+		A program written in this language is split into two blocks: a \textit{computation} block,
+		and a \textit{proof} block. Both blocks are optional, if the user is only interested in the
 		computation they can just write that. Alternatively, if the user has all the computations
 		done they can just write the proof block. 
 		
-		The computation block can be further split into two blocks: the \texttt{given} block
-		and the \texttt{compute} block. In the \texttt{given} block the parameters are specified
+		The computation block can be further split into two blocks: the \textit{given} block
+		and the \textit{compute} block. In the \textit{given} block the parameters are specified
 		as well as any values which are necessary for the computation that the user has already
-		computed. The \texttt{compute} block carries out the given computations. There are two
+		computed. The compute block carries out the given computations. There are two
 		types of computations: picking a random value, and defining a value by setting it
 		equal to the right-hand side of an equation.
 		
-		The proof block is made up of three blocks: the \texttt{given} block, the 
-		\texttt{prove knowledge of} block, and the \texttt{such that} block. In the
-		\texttt{given} block the proof parameters are specified as well as any inputs
+		The proof block is made up of three blocks: the given block, the 
+		prove knowledge of block, and the such that block. In the
+		given block the proof parameters are specified as well as any inputs
 		known publicly to both the prover and the verifier. The inputs known privately to
-		the prover are specified in the \texttt{prove knowledge of block}. In the 
-		\texttt{such that} block the relations between all the values are specified.
+		the prover are specified in the prove knowledge of block. In the 
+		such that block the relations between all the values are specified.
 		The zero-knowledge proof will be a proof that all these relations are satisfied.
+		Below is an example program written in ZKPDL.
 		
-	    
-	    \begin{comment}
 		\begin{verbatim}
 		computation: // compute values required for proof
 		  given: // declarations
-		    group: G = <g. h>
+		    group: G = <g, h>
 		    exponents in G: x[2:3]
 		  compute: // declarations and assignments
 		    random exponents in G: r[1:3]
@@ -498,9 +502,8 @@ in either the design or the implementation of the protocol.
 		In this example, the authors are proving that the value $x_{1}$ contained within
 		the commitment $c_{1}$ is the product of $x_{2}$ and $x_{3}$ which are contained
 		in $c_{2}$ and $c_{3}$ respectively. Because both blocks are optional, they are
-		considered independent from each other, so a lines are repeated between the two.
-		\end{comment}
-
+		considered independent from each other, so a few lines are repeated between the two.
+		
 \begin{comment}
 \section{Applications}
 	In general, zero knowledge protocols have many applications. Authentication systems,
