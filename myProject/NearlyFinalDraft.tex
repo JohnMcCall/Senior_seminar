@@ -306,11 +306,14 @@ in either the design or the implementation of the protocol.
 	be closed under that operation, in other words for all $a, b$ in $G, a
 	\odot b$ must also be in $G$. The operation must be associative, so for
 	all $a, b$ in $G, (a \odot b) \odot c = a \odot (b \odot c)$. There must
-	be an identity element, $e$ in $G$ such that for every element $a$ in $G$
+	be an identity element, $e$ in $G$, such that for every element $a$ in $G$
 	the equation $e \odot a = a \odot e = a$ is true. Finally, there must be
 	an inverse element, so for each $a$ in $G$, there exists an element $b$ in
 	$G$ such that $a \odot b = b \odot a = e$. An example of a group is the
-	integers with addition, denoted $(\mathbb{Z}, +)$.
+	integers with addition, denoted $(\mathbb{Z}, +)$. This is a group because
+	addition is closed and associative in the integers, it has an identity
+	element (0), and each element of the integers has an inverse (negative 
+	that element).
 	
 	A \textit{preimage}, or \textit{inverse image} of a function, $f:A \rightarrow B$, 
 	is the set of all elements $a$ in $A$ such that $f(a)$ is in $B$. For example,
@@ -331,8 +334,8 @@ in either the design or the implementation of the protocol.
 	
 	What this means is \textit{"proof of knowledge of $w_{1}, w_{2}$ such that 
 	$x_{1} = \phi_{1}(\omega_{1}), x_{2} = \phi_{2}(\omega_{2})$ and $\omega_{1} = a\omega_{2}$}.
-	The common convention is that knowledge of variables denoted by Greek
-	letters has to be proven, whereas knowledge of all other variables is
+	The convention is that knowledge of variables listed before the colon
+	must be proven, whereas knowledge of all other variables is
 	assumed to be known by both the prover and the verifier. Another thing
 	to note is that this is the notation for a \textit{proof-goal}, not
 	a protocol. A proof-goal describes what has to be proven, and there may
@@ -353,7 +356,10 @@ in either the design or the implementation of the protocol.
 		predefined set of challenges $C$. $P$ computes a \textit{response} $s$ and sends
 		it to $V$ who then decides whether to accept or reject the proof.
 		
-		Bangerter et al's compiler can handle the class of proof goals consisting of
+		Bangerter et al's compiler is used to generate implementations of proofs
+		of knowledge of preimages under homomorphisms. An arbitrary number of these
+		proofs can be combined by using the boolean ``AND" and ``OR" operators.
+		The compiler can handle the class of proof goals consisting of
 		all expressions of the forms:
 		
 		\begin{equation*}
@@ -363,23 +369,21 @@ in either the design or the implementation of the protocol.
 		\begin{equation*}
 		\text{ZKP}[(\omega_{1},...,\omega_{m}):\bigwedge y_{i} = \phi_{i}(\omega_{1},...,\omega_{m})\land HLR(\omega_{1},...,\omega_{m})]
 		\end{equation*}
-		In the second equation, $HLR(\omega_{1},...,\omega_{m})$ denotes a system of 
-		homogeneous linear relations among the preimages.
 		
-		Some remarks about the proof goals: The first equation can be expressed
+		The first equation can be expressed
 		as an arbitrary monotone boolean formula, in other words a boolean formula
 		with an arbitrarily number of $\land$ and $\lor$ symbols and has predicates of
 		the form $y_{j} = \phi_{j}(\omega_{j}).$ Also, in both of the above equations
 		linear relations can be proven \textit{implicitly}: as an example, we can
-		see that $\text{ZKP}[(\omega_{1},\omega_{2}):y = \phi(\omega_{1},\omega_{2} \land \omega_{1} = 2\omega_{2}]$
+		see that $\text{ZKP}[(\omega_{1},\omega_{2}):y = \phi(\omega_{1},\omega_{2}) \land \omega_{1} = 2\omega_{2}]$
 		is equivalent to $\text{ZKP}[(\omega):y = \phi(2\omega,\omega)]$ by setting $\omega:=\omega_{2}$.
 		
-		The input language of this compiler requires \texttt{Declarations} of any
+		The input language of this compiler requires Declarations of any
 		algebraic objects involved (such as: groups, elements, homomorphims, and
-		constants), \texttt{Assignments} from group elements to the group
-		they live in, and \texttt{Definitions} of homomorphims. Once all of these
+		constants), Assignments from group elements to the group
+		they live in, and Definitions of homomorphims. Once all of these
 		have been set up, the protocol to be generated is specified in the
-		\texttt{SpecifiyProtocol [...]} block.
+		SpecifiyProtocol [...] block.
 		
 		The compiler outputs Java code for the $\Sigma$-Protocol, which
 		can then be used in other applications. Alternatively the compiler
@@ -392,8 +396,9 @@ in either the design or the implementation of the protocol.
 		among cryptographic compilers"~\cite{ZKCrypt:2012}. Specifically these developments are:
 		\textit{verified compilation}, where the correctness of a compiler is proved once-and-for-all,
 		and \textit{verifying compilation}, where the correctness of a compiler is checked on
-		each run. ZKCrypt uses these techniques by implementing two separate compilers, one of which
-		is a verified compiler and the other a verifying compiler. The verified compiler generates
+		each run. ZKCrypt uses these techniques by implementing two compilers, one of which
+		is a verified compiler and the other a verifying compiler, both of which are used when
+		implementing a zero knowledge protocol. The verified compiler generates
 		a reference implementation. The verifying compiler outputs an optimized implementation
 		which is provably equivalent to the reference implementation. 
 		
@@ -496,7 +501,7 @@ in either the design or the implementation of the protocol.
 		considered independent from each other, so a lines are repeated between the two.
 		\end{comment}
 
-
+\begin{comment}
 \section{Applications}
 	In general, zero knowledge protocols have many applications. Authentication systems,
 	electronic voting, electronic ticketing, Direct Anonymous Attestation (DAA), and
@@ -573,10 +578,12 @@ in either the design or the implementation of the protocol.
 	who proves its validity. The vendor then sends what the buyer has purchased. The
 	buyer sends the endorsed portion of the coin to the vendor upon receiving their
 	product.
+	
+	\end{comment}
 
 \section{Conclusion}
 	Zero knowledge protocols are becoming more and more important in today's society. 
-	Because they can be increadably complex and take a while to implement, it is important 
+	Because they can be incredibly complex and take a while to implement, it is important 
 	that there are efficient and secure ways of implementing them. In this paper we discussed
 	three zero knowledge compilers and thier associated input languages. Each of these compilers
 	hopes to aid in the implementation of zero knowledge protocols by offering a way for
