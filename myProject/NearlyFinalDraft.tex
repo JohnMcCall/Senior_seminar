@@ -423,7 +423,71 @@ in either the design or the implementation of the protocol.
 		An example of this process deals with an anonymous credential system. An anonymous
 		credential system consists of a collection of protocols to issue, revoke, and prove
 		possession of credentials. IBM's Idemix system is an anonymous credential system
-		which uses Camenisch-Lysyanskana (CL) signatures. 
+		which uses Camenisch-Lysyanskana (CL) signatures. Such a signature on two messages 
+		$m_{1}, m_{2}$ consists of integers $e, v \text{ and } A$ in $\mathbb{Z}^{*}_{n}$,
+		which means in the group of integers 1 through $n$, satisfying
+		$Z = R^{m_{1}}_{1}R^{m_{2}}_{2}S^{v}A^{e}$, where $R_{1}, R_{2}, S, \text{ and } Z$
+		are quadratic residues mod $n$ where $n = pq$ and $p, q, (p-1)/2, \text{ and }
+		(q-1)/2$ are all prime. An integer is a quadratic residue if mod $n$ if it is
+		congruent to a perfect square mod $n$. For example since $R_{1}$ is a quadratic
+		residue we know that there exists some integer $x$ such that $x^{2} \equiv q \mod n$.
+		
+		Let's say that a user has a signature on his name, $m_{1}$, and his birthday,
+		$m_{2}$. When authenticating to a server, the user might be willing to reveal 
+		his name, but not his birthday. However, the server might require him to show that 
+		he was born	after some date $b$. To satisfy both parties, the user will reveal
+		$m_{1}$ and $A$, and the give a zero knowledge proof of knowledge that he knows
+		$m_{2}, e, v$ such that $(e, v, A)$ is a valid CL-signature on $(m_{1}, m_{2})$.
+		This will be our proof goal. Stated in the standard notation for zero knowledge
+		proofs, it looks like this:
+		
+		\begin{equation*}
+		\text{ZKP}[(m_{2}, v, e): \frac{Z}{R^{m_{1}}_{1}} = R^{m_{2}}_{2}S^{v}A^{e} \land m_{2} \ge b]
+		\end{equation*}
+		
+		Below is the input of the ZKCrypt compiler for this proof goal. The code was taken
+		from~\cite{ZKCrypt:2012}. The first two blocks, Declarations and Inputs, declare 
+		all the variables that will be used in the protocol. The variables whose values
+		need to be proved are declared as private, all the other variables are declared as
+		public. In the Properties block the user specifies the security properties and
+		structure of the protocol. These parameters are beyond the scope of this paper, but
+		more information about them can be found in~\cite{ZKCrypt:2012}. 
+		
+		The final block is 	where the proof goal is specified. It will be proved using a
+		$\Sigma^{\textrm{GSP}}$-protocol, which is a type of $\Sigma$-protocol used to prove
+		knowledge of preimages under arbitrary exponentiation homomorphisms. More about 
+		$\Sigma^{\textrm{GSP}}$-protocols can be found in~\cite{ZKCrypt:2012}.
+		The first thing defined in this block is the homomorphism, $\phi$, which takes
+		three integers as input and outputs an integer in $\mathbb{Z}^{*}_{n}$. Next the
+		maximum challenge length is specified. This is the maximum challenge length which can
+		be used safely by the homomorphism. Finally, a relation is defined. The relation
+		is what we are trying to prove. Upon inspection of the relation given in the example,
+		we can see that it does indeed match the proof goal given above.
+				
+		\begin{verbatim}
+		Declarations {
+		Int(2048)  n;
+		Zmod*(n)   z, R_1, R_2, A, S;
+		Int(1000)  m_1, m_2, e, v, b;
+		}
+		Inputs {
+		Public         := n, z, R_1, A, S, R_2, b;
+		ProverPrivate  := e, m_2, v;
+		}
+		Properties {
+		KnowledgeError		:= 80;
+		SZKParameter		:= 80;
+		ProtocolComposition := P_0;
+		}
+		SigmaGSP P_0 {
+		Homomorphism(phi: Z^3 -> Zmod*(n):
+					 (e,m_2,v) |-> (A^e*S^v*R_2^m_2));
+		ChallengeLength := 80;
+		Relation(
+		  (z*R_1^(-m_1)) = phi(e,m_2,v) And m_2 >= b);
+		}
+		\end{verbatim}
+		
 				
 	\subsection{ZKPDL}
 		Meiklejohn et al. provide a language called the Zero-Knowledge Proof Description
@@ -476,7 +540,7 @@ in either the design or the implementation of the protocol.
 		the prover are specified in the prove knowledge of block. In the 
 		such that block the relations between all the values are specified.
 		The zero-knowledge proof will be a proof that all these relations are satisfied.
-		Below is an example program written in ZKPDL.
+		Below is an example program written in ZKPDL, taken from~\cite{ZKPDL:2010}.
 		
 		\begin{verbatim}
 		computation: // compute values required for proof
