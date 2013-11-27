@@ -487,7 +487,16 @@ in either the design or the implementation of the protocol.
 		}
 		\end{verbatim}
 		
-				
+		ZKCrypt and the previous compiler are fairly similar. In fact, they were implemented
+		by a couple of the same people. Both compilers make use of $\Sigma$-protocols, both
+		compilers utilize proofs of preimages under homomorphisms, and both compilers allow
+		an arbitrary number of these proofs to be combined using boolean ``and" and ``or".
+		Despite the similarities, ZKCrypt does many things that the previous compiler does
+		not. For instance, ZKCrypt can take a wider variety of proof goals, including
+		$\Sigma^{\textrm{GSP}}$-protocols, which aren't supported by the previous compiler.
+		Also, ZKCrypt has multiple stages of compilation and the correctness
+		of the process is verified after each stage. The compiler presented in~\cite{Sigma:2009}
+		has also been proven correct, but not as rigorously.
 				
 	\subsection{ZKPDL}
 		Meiklejohn et al. provide a language called the Zero-Knowledge Proof Description
@@ -560,6 +569,13 @@ in either the design or the implementation of the protocol.
 		the commitment $c_{1}$ is the product of $x_{2}$ and $x_{3}$ which are contained
 		in $c_{2}$ and $c_{3}$ respectively. Because both blocks are optional, they are
 		considered independent from each other, so a few lines are repeated between the two.
+		
+		ZKPDL is significantly different from the previous two compilers shown. The most notable
+		difference being that it is not directly based on $\Sigma$-protocols, but instead uses
+		the Fiat-Shamir heuristic. Also, ZKPDL was implemented for the purpose of being
+		used in electronic cash applications and as such has a rich library of e-cash operations.
+		However, due to its specialization ZKPDL doesn't support as wide of a variety of proof goals
+		as ZKCrypt.
 		
 \begin{comment}
 \section{Applications}
