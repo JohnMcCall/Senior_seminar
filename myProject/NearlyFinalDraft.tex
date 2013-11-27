@@ -39,12 +39,12 @@ John T. McCall\\
 \maketitle
 
 \begin{abstract}
-Zero knowledge protocols have useful applications in cryptography,
-however they are usually designed by hand. They can be difficult to
-design correctly, and it can be easy to make mistakes, as zero knowledge 
+Zero knowledge protocols have useful applications in cryptography.
+They are usually designed by hand. They can be difficult to
+design correctly, as zero knowledge 
 protocols are complex structures. Even if they are designed perfectly,
-a programmer tasked with implementing it could find themselves in over
-their head, especially if they lack a deep cryptographic background.
+a programmer implementing it could find themselves having trouble
+with the task, especially if they lack a thorough cryptographic background.
 The goal behind zero knowledge compilers is to help alleviate these
 concerns. Using a zero knowledge compiler, one can simply input a proof
 goal and the compiler will output an implementation of that goal in a
@@ -58,7 +58,7 @@ in either the design or the implementation of the protocol.
 
 \section{Introduction}
 	Zero knowledge protocols provide a way of proving that a statement is true
-	without revealing anything other than the correctness of this claim. Zero
+	without revealing anything other than the correctness of the claim. Zero
 	knowledge protocols have practical applications in cryptography and
 	are used in many applications. While some applications only exist
 	on a specification level, a direction of research has produced real-world
@@ -70,12 +70,12 @@ in either the design or the implementation of the protocol.
 	is done by hand. Designers use standard arguments and tricks which
 	can be combined and repeated in various combinations to provide the 
 	desired, secure, protocol. There are a few problems with this type
-	of method however. The implementations tend to be time-consuming
+	of method. The implementations tend to be time-consuming
 	and error-prone. Minor changes in the protocol specification often
 	lead to major changes in the implementation. The protocols are usually
 	designed by cryptographers and implemented by software engineers. The
-	cryptographers typically are not skilled in implementation matters and
-	the software engineers typically have a hard time understanding the
+	cryptographers are not typically skilled in implementation matters and
+	the software engineers usually have a hard time understanding the
 	complexities of the zero knowledge protocols~\cite{Sigma:2009}. 
 
 	Zero knowledge compilers help to alleviate these issues by providing
@@ -85,11 +85,9 @@ in either the design or the implementation of the protocol.
 	worry about introducing security flaws in their implementations.
 
 	In sections 2 and 3, I provide background on zero knowledge protocols and
-	compilers respectively. In section 4, I talk about some concepts from
-	cryptography that are needed in understanding the compilers.
-	In section 5, I talk about three different implementations of a zero knowledge 
-	compiler. Finally, in section 6, I talk about electronic cash, an application 
-	of zero knowledge protocols.
+	compilers, respectively. In section 4, I give background in
+	mathematics, as well as discuss three different implementations of a zero knowledge 
+	compiler.
 
 \section{Zero Knowledge Protocols}
 	Zero knowledge protocols, also referred to as zero knowledge proofs, are a type
@@ -101,18 +99,17 @@ in either the design or the implementation of the protocol.
 	proof.
 	
 	An interactive proof system is an interaction between a
-	\textit{verifier} executing a probabilistic polynomial-time strategy and
-	a \textit{prover} which executes a computationally unbound strategy.
-	satisfying the following properties:
+	\textit{verifier} and
+	a \textit{prover} satisfying the following properties:
 			
 	\begin{itemize}
-		\item \textit{Completeness}: If the statement being proved is true, an
-		honest verifier (a verifier correctly following the protocol) will be
+		\item \textit{Completeness}: If the statement being proven is true, an
+		honest verifier, a verifier correctly following the protocol, will be
 		convinced after interacting with an honest prover.
 			
 		\item \textit{Soundness}: If the statement is false, no prover, either
 		honest or dishonest, will be able to convince an honest verifier, except
-		with a small probability.
+		with some small probability.
 	\end{itemize}
 	
 	For an interactive proof to be a zero knowledge proof it must also
@@ -121,7 +118,7 @@ in either the design or the implementation of the protocol.
 	the prover or the verifier before performing the proof is the same
 	as the knowledge known by either party after performing the proof.			
 	In other words, no additional knowledge is gained by either party because
-	of the proof. Another way of thinking about it is that the proof reveals 	
+	of the proof. Another way of thinking about this is that the proof reveals 	
 	zero knowledge~\cite{Survey}.
 
 	\subsection{Examples}
@@ -227,9 +224,11 @@ in either the design or the implementation of the protocol.
 		between two isomorphic graphs, so since $P$ knows a Hamiltonian cycle
 		for $G$ they must know one for $H$ as well.
 		
-		\item $P$ commits to $H$, either using a cryptographic commitment
-		scheme or some other method. Doing this means that $P$ cannot change
-		$H$, and at the same time $V$ has no knowledge of $H$.
+		\item $P$ commits to $H$, either using a one-way
+		function, such as a hash function. This way $V$ will have no knowledge of the
+		input, but will still be able to check if $P$ changed it by comparing the
+		outputs. Doing this means that $P$ cannot change $H$ without $V$ finding
+		out.
 		
 		\item $V$ then randomly asks $P$ to do one of two things. Either show
 		the isomorphism between $H$ and $G$, or show a Hamiltonian cycle in $H$.
@@ -381,7 +380,7 @@ in either the design or the implementation of the protocol.
 		The input language of this compiler requires Declarations of any
 		algebraic objects involved (such as: groups, elements, homomorphims, and
 		constants), Assignments from group elements to the group
-		they live in, and Definitions of homomorphims. Once all of these
+		they are a part of, and Definitions of homomorphims. Once all of these
 		have been set up, the protocol to be generated is specified in the
 		SpecifiyProtocol [...] block.
 		
@@ -489,23 +488,17 @@ in either the design or the implementation of the protocol.
 		\end{verbatim}
 		
 				
+				
 	\subsection{ZKPDL}
 		Meiklejohn et al. provide a language called the Zero-Knowledge Proof Description
 		Language (ZKPDL)~\cite{ZKPDL:2010}. This language makes it much easier for both
-		programmers and 	cryptographers to implement protocols. The authors aim to enable
+		programmers and cryptographers to implement protocols. The authors aim to enable
 		secure, anonymous electronic cash (e-cash) in network applications.
 		
-		This language provides two main benefits. Firstly, the programmer no longer 
-		has to worry about implementing cryptographic primitives, efficient mathematical
-		operations, or generating and processing messages. ZKPDL allows the user to
-		specify the protocol similarly to how it would be specified in a theoretical
-		description. Secondly, the library makes performance optimizations based on an
-		analysis of the protocol description. 
-		
 		Similarly to the language above, ZKPDL makes use of $\Sigma$-Protocols.
-		However, ZKPDL doesn't implement them directly. Instead, they use the 
+		However, ZKPDL doesn't implement them directly. Instead, they make use of the 
 		Fiat-Shamir heuristic, which transforms $\Sigma$-protocols into non-interactive
-		zero-knowledge proofs.
+		zero-knowledge proofs. 
 		
 		The authors also provide an interpreter for ZKPDL, implemented in C++, which
 		preforms one of two actions depending on the role of the user. On the prover
