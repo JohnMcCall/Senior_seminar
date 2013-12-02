@@ -43,7 +43,7 @@ Zero knowledge protocols have useful applications in cryptography.
 They are usually designed by hand. They can be difficult to
 design correctly, as zero knowledge 
 protocols are complex structures. Even if they are designed perfectly,
-a programmer implementing it could find themselves having trouble
+a programmer implementing them could find themselves having trouble
 with the task, especially if they lack a thorough cryptographic background.
 The goal behind zero knowledge compilers is to help alleviate these
 concerns. Using a zero knowledge compiler, one can simply input a proof
@@ -80,14 +80,13 @@ in either the design or the implementation of the protocol.
 
 	Zero knowledge compilers help to alleviate these issues by providing
 	a way to automatically generate zero knowledge protocols for a large
-	class of proof goals. They allow developers to implement these protocols
+	class of proof-goals. They allow developers to implement these protocols
 	without having an in depth knowledge of cryptography and without having to
 	worry about introducing security flaws in their implementations.
 
-	In sections 2 and 3, I provide background on zero knowledge protocols and
-	compilers, respectively. In section 4, I give background in
-	mathematics, as well as discuss three different implementations of a zero knowledge 
-	compiler.
+	In sections 2 and 3, we provide background on zero knowledge protocols and
+	compilers, respectively. In section 4, we discuss three different 
+	implementations of a zero knowledge compiler.
 
 \section{Zero Knowledge Protocols}
 	Zero knowledge protocols, also referred to as zero knowledge proofs, are a type
@@ -120,6 +119,8 @@ in either the design or the implementation of the protocol.
 	In other words, no additional knowledge is gained by either party because
 	of the proof. Another way of thinking about this is that the proof reveals 	
 	zero knowledge~\cite{Survey}.
+	
+	\newpage
 
 	\subsection{Examples}
 	%Write an example using the Lyrics of Billie Jean
@@ -137,7 +138,7 @@ in either the design or the implementation of the protocol.
 
 	Peggy has stumbled across a magical cave. Upon entering the cave
 	there are two paths, one leading to the right and one leading to the
-	left. Both paths eventually lead to a dead end, however Peggy has
+	left. Both paths eventually lead to a dead end. However Peggy has
 	discovered a secret word that opens up a hidden door in the dead end,
 	connecting both paths.
 
@@ -160,7 +161,7 @@ in either the design or the implementation of the protocol.
 	If Victor says to return down the other path, she whispers the magic
 	word, goes through the door, and returns down the other path.
 
-	If Peggy doesn't know the word, there is a 50\% chance that Victor
+	If Peggy does not know the word, there is a 50\% chance that Victor
 	will choose the path she did not start down. If this happens there is
 	no way that she can return down the correct path. The experiment should
 	be repeated until Victor either discovers Peggy is a liar because she
@@ -183,7 +184,8 @@ in either the design or the implementation of the protocol.
 	in the sequence are	adjacent (connected) to each other in the graph,
 	which starts and ends at the same vertex. A \textit{Hamiltonian
 	path}, is a sequence of vertices in which each vertex in the graph is
-	listed exactly once. Finally, a \textit{Hamiltonian cycle}
+	listed exactly once and includes all vertices of the graph. 
+	Finally, a \textit{Hamiltonian cycle}
 	is a Hamiltonian path which is also a cycle. In other words it is a
 	sequence of vertices which begins and ends with the same vertex, and
 	each vertex in the graph is listed exactly once (aside from the first/last
@@ -198,13 +200,13 @@ in either the design or the implementation of the protocol.
 	\end{figure}
 	
 	For a large enough
-	graph, finding a Hamiltonian cycle is infeasible. In fact this problem, 
-	is \textit{NP-complete}. NP-complete problems have the property that
+	graph, finding a Hamiltonian cycle is computationally infeasible. In fact this 
+	problem, is \textit{NP-complete}. NP-complete problems have the property that
 	any known solution can be efficiently verified, however there is no known
 	efficient way to find said solution. The time required to solve an 
-	NP-complete problem increases rapidly as the size of the problem grows.
-	Using current computing power, even moderately sized problems can take 
-	billions of years to solve.
+	NP-complete problem, using currently known methods, increases exponentially 
+	as the size of the problem grows. Using current computing power, even moderately 
+	sized problems can take 	hundreds of years to solve.
 	
 	Another important definition is that of graph isomorphism. An
 	isomorphism, $f:V(G) \rightarrow V(H)$, of graphs $G$ and $H$ is a 
@@ -224,8 +226,13 @@ in either the design or the implementation of the protocol.
 		between two isomorphic graphs, so since $P$ knows a Hamiltonian cycle
 		for $G$ they must know one for $H$ as well.
 		
-		\item $P$ commits to $H$, either using a one-way
-		function, such as a hash function. This way $V$ will have no knowledge of the
+		\item $P$ commits to $H$, using a one-way function. The benefit of using 
+		a one-way function is that when given an 
+		input, the output is efficient to compute. The opposite is not true. 
+		When given the output it should be infeasible to compute the input.
+		Finding two inputs which result in the same output should also be a
+		difficult task. A hash function is an example of a one-way function.
+		Since $P$ used a one-way function, $V$ will have no knowledge of the
 		input, but will still be able to check if $P$ changed it by comparing the
 		outputs. Doing this means that $P$ cannot change $H$ without $V$ finding
 		out.
@@ -241,14 +248,19 @@ in either the design or the implementation of the protocol.
 		translate the cycle from $G$ onto $H$. They then reveal to $V$ the 
 		edges of $H$ which are a part of the Hamiltonian cycle. This is
 		enough for $V$ to verify that $H$ contains a Hamiltonian cycle.
+		
+		\item In both cases $V$ must also verify that $H$ is the same graph 
+		that $P$ committed to by using the same one-way function and comparing 
+		the outputs. 
+		
 	\end{itemize}
 	
 	This protocol is complete because if $P$ is an honest prover, they can easily
 	answer either question asked by $V$ by either providing the isomorphism which
 	they have, or by applying the isomorphism to the cycle in $G$ to demonstrate
-	a Hamiltonian cycle. This protocol is sound because if $P$ doesn't know the
+	a Hamiltonian cycle. This protocol is sound because if $P$ does not know the
 	cycle, they can either generate a graph isomorphic to $G$ or a Hamiltonian
-	cycle for another graph, but they cannot do both since they doesn't know a
+	cycle for another graph, but they cannot do both since they does not know a
 	Hamiltonian cycle for $G$. With a reasonable number of rounds it is
 	unrealistic for $P$ to fool $V$ in this manner.	This protocol is zero knowledge 
 	because in each round $V$ will only learn either the isomorphism of $H$ to $G$
@@ -261,12 +273,12 @@ in either the design or the implementation of the protocol.
 	Fundamentally, what a compiler does is translate one language into
 	another. For example, a C++ compiler will take a C++ program as input and
 	will output machine code. There are many different types of
-	compilers, single-pass compilers, multi-pass, load-and-go, debugging compilers,
+	compilers: single-pass compilers, multi-pass, load-and-go, debugging compilers,
 	optimizing compilers, and many combinations of these~\cite{Compiler:1986}.
 	
 	The first compilers started to appear in the 1950s. Much of the early work
 	dealt with translating arithmetic formulas into machine code. At the time
-	compilers were notoriously difficult to implement, for instance it took
+	compilers were notoriously difficult to implement. For instance it took
 	18 staff-years to implement the first Fortran compiler. Various languages,
 	programming	environments, and tools have been developed since then which
 	make implementing a compiler considerably easier.
@@ -279,7 +291,7 @@ in either the design or the implementation of the protocol.
     It is difficult to implement a zero knowledge protocol due to their
 	subtleties. For this reason work has gone into
 	developing zero knowledge compilers. A zero knowledge compiler is a
-	compiler which takes a proof goal as its input language
+	compiler which takes a proof-goal as its input language
 	and outputs an implementation of a zero knowledge proof.
     
     The compilers discussed in this paper take, as input, an abstract proof 
@@ -311,8 +323,8 @@ in either the design or the implementation of the protocol.
 	$G$ such that $a \odot b = b \odot a = e$. An example of a group is the
 	integers with addition, denoted $(\mathbb{Z}, +)$. This is a group because
 	addition is closed and associative in the integers, it has an identity
-	element (0), and each element of the integers has an inverse (negative 
-	that element).
+	element (0), and each element of the integers has an inverse (the negation 
+	of that element).
 	
 	A \textit{preimage}, or \textit{inverse image} of a function, $f:A \rightarrow B$, 
 	is the set of all elements $a$ in $A$ such that $f(a)$ is in $B$. For example,
@@ -350,7 +362,8 @@ in either the design or the implementation of the protocol.
 		$\Sigma$-Protocols are the basis of essentially all efficient zero knowledge
 		proofs of knowledge used in practice today. $\Sigma$-Protocols are a class of
 		three-move protocols, meaning three messages are exchanged between the prover
-		and the verifier. First the prover, $P$, sends a \textit{commitment} $t$ to the
+		and the verifier each round. First the prover, $P$, sends a \textit{commitment} 
+		$t$ to the
 		verifier, $V$. $V$ then responds with a random \textit{challenge} $c$ from a 
 		predefined set of challenges $C$. $P$ computes a \textit{response} $s$ and sends
 		it to $V$ who then decides whether to accept or reject the proof.
@@ -358,7 +371,7 @@ in either the design or the implementation of the protocol.
 		Bangerter et al's compiler is used to generate implementations of proofs
 		of knowledge of preimages under homomorphisms. An arbitrary number of these
 		proofs can be combined by using the boolean ``AND" and ``OR" operators.
-		The compiler can handle the class of proof goals consisting of
+		The compiler can handle the class of proof-goals consisting of
 		all expressions of the forms:
 		
 		\begin{equation*}
@@ -377,10 +390,10 @@ in either the design or the implementation of the protocol.
 		see that $\text{ZKP}[(\omega_{1},\omega_{2}):y = \phi(\omega_{1},\omega_{2}) \land \omega_{1} = 2\omega_{2}]$
 		is equivalent to $\text{ZKP}[(\omega):y = \phi(2\omega,\omega)]$ by setting $\omega:=\omega_{2}$.
 		
-		The input language of this compiler requires Declarations of any
+		The input language of this compiler requires declarations of any
 		algebraic objects involved (such as: groups, elements, homomorphims, and
-		constants), Assignments from group elements to the group
-		they are a part of, and Definitions of homomorphims. Once all of these
+		constants), assignments from group elements to the group
+		they are a part of, and definitions of homomorphims. Once all of these
 		have been set up, the protocol to be generated is specified in the
 		SpecifiyProtocol [...] block.
 		
@@ -403,7 +416,7 @@ in either the design or the implementation of the protocol.
 		
 		ZKCrypt has four main parts to its compilation process. They are: resolution, verified
 		compilation, implementation, and generation. The first phase, resolution, takes a
-		description of a proof goal, G, as input. This description is written in the the standard
+		description of a proof-goal, G, as input. This description is written in the standard
 		notation for zero knowledge proofs. G is converted into a resolved goal
 		G$_{\textrm{res}}$, in which
 		high-level range restrictions are converted into proofs of knowledge of preimages under
@@ -413,7 +426,7 @@ in either the design or the implementation of the protocol.
 		the construction and verification of cryptographic proofs. At this point a 
 		once-and-for-all proof of correctness is done to guarantee that I$_{\textrm{ref}}$
 		satisfies the desired security properties. The implementation phase
-		also takes G$_{\textrm{res}}$ as input however it outputs I$_{\textrm{opt}}$, an
+		also takes G$_{\textrm{res}}$ as input. However it outputs I$_{\textrm{opt}}$, an
 		optimized implementation. An equivalence checker is used to prove that I$_{\textrm{ref}}$
 		and I$_{\textrm{opt}}$ are semantically equivalent. In the final phase, generation,
 		the optimized implementation is converted into C and Java implementations of the
@@ -427,32 +440,34 @@ in either the design or the implementation of the protocol.
 		which means in the group of integers 1 through $n$, satisfying
 		$Z = R^{m_{1}}_{1}R^{m_{2}}_{2}S^{v}A^{e}$, where $R_{1}, R_{2}, S, \text{ and } Z$
 		are quadratic residues mod $n$ where $n = pq$ and $p, q, (p-1)/2, \text{ and }
-		(q-1)/2$ are all prime. An integer is a quadratic residue if mod $n$ if it is
+		(q-1)/2$ are all prime. Both $p$ and $q$ are large numbers, at least 100 bits in
+		length. This makes $n$ secure from brute force attacks. 
+		An integer is a quadratic residue mod $n$ if it is
 		congruent to a perfect square mod $n$. For example since $R_{1}$ is a quadratic
 		residue we know that there exists some integer $x$ such that $x^{2} \equiv q \mod n$.
+		Finding a square root mod $n$ is difficult to do without knowing the values of
+		$p$ and $q$.
 		
-		Let's say that a user has a signature on his name, $m_{1}$, and his birthday,
+		Suppose that a user has a signature on his name, $m_{1}$, and his birthday,
 		$m_{2}$. When authenticating to a server, the user might be willing to reveal 
 		his name, but not his birthday. However, the server might require him to show that 
 		he was born	after some date $b$. To satisfy both parties, the user will reveal
-		$m_{1}$ and $A$, and the give a zero knowledge proof of knowledge that he knows
+		$m_{1}$ and $A$, and then give a zero knowledge proof of knowledge that he knows
 		$m_{2}, e, v$ such that $(e, v, A)$ is a valid CL-signature on $(m_{1}, m_{2})$.
-		This will be our proof goal. Stated in the standard notation for zero knowledge
+		This will be our proof-goal. Stated in the standard notation for zero knowledge
 		proofs, it looks like this:
 		
 		\begin{equation*}
 		\text{ZKP}[(m_{2}, v, e): \frac{Z}{R^{m_{1}}_{1}} = R^{m_{2}}_{2}S^{v}A^{e} \land m_{2} \ge b]
 		\end{equation*}
 		
-		Below is the input of the ZKCrypt compiler for this proof goal. The code was taken
+		Below is the input of the ZKCrypt compiler for this proof-goal. The code was taken
 		from~\cite{ZKCrypt:2012}. The first two blocks, Declarations and Inputs, declare 
 		all the variables that will be used in the protocol. The variables whose values
 		need to be proved are declared as private, all the other variables are declared as
-		public. In the Properties block the user specifies the security properties and
-		structure of the protocol. These parameters are beyond the scope of this paper, but
-		more information about them can be found in~\cite{ZKCrypt:2012}. 
+		public~\cite{ZKCrypt:2012}.
 		
-		The final block is 	where the proof goal is specified. It will be proved using a
+		The final block is 	where the proof-goal is specified. It will be proved using a
 		$\Sigma^{\textrm{GSP}}$-protocol, which is a type of $\Sigma$-protocol used to prove
 		knowledge of preimages under arbitrary exponentiation homomorphisms. More about 
 		$\Sigma^{\textrm{GSP}}$-protocols can be found in~\cite{ZKCrypt:2012}.
@@ -461,7 +476,7 @@ in either the design or the implementation of the protocol.
 		maximum challenge length is specified. This is the maximum challenge length which can
 		be used safely by the homomorphism. Finally, a relation is defined. The relation
 		is what we are trying to prove. Upon inspection of the relation given in the example,
-		we can see that it does indeed match the proof goal given above.
+		we can see that it does indeed match the proof-goal given above.
 				
 		\begin{verbatim}
 		Declarations {
@@ -473,27 +488,22 @@ in either the design or the implementation of the protocol.
 		Public         := n, z, R_1, A, S, R_2, b;
 		ProverPrivate  := e, m_2, v;
 		}
-		Properties {
-		KnowledgeError		:= 80;
-		SZKParameter		:= 80;
-		ProtocolComposition := P_0;
-		}
 		SigmaGSP P_0 {
 		Homomorphism(phi: Z^3 -> Zmod*(n):
 					 (e,m_2,v) |-> (A^e*S^v*R_2^m_2));
 		ChallengeLength := 80;
 		Relation(
-		  (z*R_1^(-m_1)) = phi(e,m_2,v) And m_2 >= b);
+		  (z*R_1^(-m_1)) = phi(e,m_2,v) AND m_2 >= b);
 		}
 		\end{verbatim}
 		
 		ZKCrypt and the previous compiler are fairly similar. In fact, they were implemented
-		by a couple of the same people. Both compilers make use of $\Sigma$-protocols, both
+		by a couple of the same researchers. Both compilers make use of $\Sigma$-protocols, both
 		compilers utilize proofs of preimages under homomorphisms, and both compilers allow
-		an arbitrary number of these proofs to be combined using boolean ``and" and ``or".
+		an arbitrary number of these proofs to be combined using boolean ``AND" and ``OR".
 		Despite the similarities, ZKCrypt does many things that the previous compiler does
-		not. For instance, ZKCrypt can take a wider variety of proof goals, including
-		$\Sigma^{\textrm{GSP}}$-protocols, which aren't supported by the previous compiler.
+		not. For instance, ZKCrypt can take a wider variety of proof-goals, including
+		$\Sigma^{\textrm{GSP}}$-protocols, which are not supported by the previous compiler.
 		Also, ZKCrypt has multiple stages of compilation and the correctness
 		of the process is verified after each stage. The compiler presented in~\cite{Sigma:2009}
 		has also been proven correct, but not as rigorously.
@@ -505,9 +515,10 @@ in either the design or the implementation of the protocol.
 		secure, anonymous electronic cash (e-cash) in network applications.
 		
 		Similarly to the language above, ZKPDL makes use of $\Sigma$-Protocols.
-		However, ZKPDL doesn't implement them directly. Instead, they make use of the 
-		Fiat-Shamir heuristic, which transforms $\Sigma$-protocols into non-interactive
-		zero-knowledge proofs. 
+		However, ZKPDL does not implement them directly. Instead, they make use of the 
+		Fiat-Shamir heuristic~\cite{Fiat-Shamir}, which transforms $\Sigma$-protocols 
+		into non-interactive zero-knowledge proofs. This is done by hashing the prover's
+		first message to select the verifier's challenge.
 		
 		The authors also provide an interpreter for ZKPDL, implemented in C++, which
 		preforms one of two actions depending on the role of the user. On the prover
@@ -535,8 +546,8 @@ in either the design or the implementation of the protocol.
 		types of computations: picking a random value, and defining a value by setting it
 		equal to the right-hand side of an equation.
 		
-		The proof block is made up of three blocks: the given block, the 
-		prove knowledge of block, and the such that block. In the
+		The proof block is made up of three blocks: the \textit{given} block, the 
+		\textit{prove knowledge of} block, and the \textit{such that} block. In the
 		given block the proof parameters are specified as well as any inputs
 		known publicly to both the prover and the verifier. The inputs known privately to
 		the prover are specified in the prove knowledge of block. In the 
@@ -558,10 +569,11 @@ in either the design or the implementation of the protocol.
 		  given: // declarations of public values
 		    group: G = <g, h>
 		    elements in G: c[1:3]
-		    for(i, 1:3, commitment to x_i: c_i = g^x_i * h^r_i)
-		  prove knowledge of: // declarations of private values
+		    for(i, 1:3, commitment to x_i:
+		      c_i = g^x_i * h^r_i)
+		  prove knowledge of: 
 		    exponents in G: x[1:3], r[1:3]
-		  such that: // protocol specification; i.e. relations
+		  such that: // protocol specification
 		    x_1 = x_2 * x_3
 		\end{verbatim}
 		
@@ -574,7 +586,7 @@ in either the design or the implementation of the protocol.
 		difference being that it is not directly based on $\Sigma$-protocols, but instead uses
 		the Fiat-Shamir heuristic. Also, ZKPDL was implemented for the purpose of being
 		used in electronic cash applications and as such has a rich library of e-cash operations.
-		However, due to its specialization ZKPDL doesn't support as wide of a variety of proof goals
+		However, due to its specialization ZKPDL does not support as wide of a variety of proof-goals
 		as ZKCrypt.
 		
 \begin{comment}
@@ -622,7 +634,7 @@ in either the design or the implementation of the protocol.
 	a bank account. The user has to prove they have a secret key in order to successfully
 	withdraw money. 
 	
-	The authors state the proof goal as:
+	The authors state the proof-goal as:
 	\begin{align*}
 	ZPK\left[(u_{1}, u_{2}): I = g^{u_{1}}_{1}g^{u_{2}}_{2}\right].
 	\end{align*}
@@ -659,18 +671,18 @@ in either the design or the implementation of the protocol.
 
 \section{Conclusion}
 	Zero knowledge protocols are becoming more and more important in today's society. 
-	Because they can be incredibly complex and take a while to implement, it is important 
+	Because they can be highly complex and take a while to implement, it is important 
 	that there are efficient and secure ways of implementing them. In this paper we discussed
-	three zero knowledge compilers and thier associated input languages. Each of these compilers
+	three zero knowledge compilers and their associated input languages. Each of these compilers
 	hopes to aid in the implementation of zero knowledge protocols by offering a way for
-	developers to easily generate an implementation of a given proof goal.
+	developers to easily generate an implementation of a given proof-goal.
 	
 	\subsection{Current State and Future Work}
 	Currently, all three of the compilers presented in this paper have
 	been implemented in some form. The compiler outlined in~\cite{Sigma:2009}
 	has native support for two groups and allows users to define their own
 	groups. Future features of the compiler includes supporting efficient
-	proofs in hidden-order groups, as well as the automatic transformation
+	proofs in other group types, as well as the automatic transformation
 	of the generated $\Sigma$-protocols into non-interactive zero knowledge
 	proofs.
 	
