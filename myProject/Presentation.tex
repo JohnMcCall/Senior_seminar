@@ -1,0 +1,147 @@
+\documentclass{beamer}
+
+\mode<presentation>
+{
+  \usetheme{CambridgeUS}
+  \setbeamercovered{transparent}
+}
+
+\usepackage{amsmath}
+
+% The text in square brackets is the short version of your title and will be used in the
+% header/footer depending on your theme.
+\title[Zero Knowledge Compilers]{Zero Knowledge Compilers}
+
+% Sub-titles are optional - uncomment and edit the next line if you want one.
+% \subtitle{Why does sub-tree crossover work?}
+
+% The text in square brackets is the short version of your name(s) and will be used in the
+% header/footer depending on your theme.
+\author[McCall]{John McCall}
+\institute[U of Minn, Morris]
+{
+  Division of Science and Mathematics \\
+  University of Minnesota, Morris \\
+  Morris, Minnesota, USA
+}
+
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>
+    \frametitle{Outline}
+    \tableofcontents[currentsection, hideothersubsections]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+	\titlepage
+\end{frame}
+
+\begin{frame}
+	\frametitle{Overview}
+	\begin{itemize}
+		\item Zero knowledge protocols have practical applications in cryptography.
+		% Such as Direct Anonymous Attestation.
+		
+		\item They are difficult to design and to implement.
+		
+		\item Zero knowledge compilers help to ease this burden. 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Outline}
+	\tableofcontents[hideallsubsections]
+\end{frame}
+
+\section{Zero Knowledge Protocols}
+
+\begin{frame}
+	\frametitle{Zero Knowledge Proofs}
+	\begin{itemize}
+		\item Consist of a prover and a verifier.
+		
+		\item Can be used to prove knowledge of a statement.
+		
+		\item Are a type of interactive proof.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Interactive Proof}
+	Must satisfy:
+	\begin{itemize}
+		\item \textit{Completeness}: For every $ x \in S$, the verifier always
+		accepts after interacting with the prover on common input $x$.
+			
+		\item \textit{Soundness}: For every $x \notin S$, the verifier		
+		rejects with probability at least $\frac{1}{p(|x|)}$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Zero Knowledge Proof}
+\end{frame}
+
+\subsection{Examples}
+
+\begin{frame}
+	\frametitle{Magic Cave}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Graph Theory Intro}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Hamiltonian Cycle}
+\end{frame}
+
+\section{Compilers}
+
+\begin{frame}
+	\frametitle{Compilers}
+\end{frame}
+
+\section{Zero Knowledge Compilers}
+
+\begin{frame}
+	\frametitle{Relevant Background}
+	Mostly Number Theory and Crypto stuff here.
+\end{frame}
+
+\begin{frame}
+	\frametitle{Sigma-Protocols}
+\end{frame}
+
+\begin{frame}
+	\frametitle{ZKCrypt}
+\end{frame}
+
+\begin{frame}
+	\frametitle{ZKPDL}
+\end{frame}
+
+\section{Applications}
+
+\begin{frame}
+	\frametitle{Electronic Cash}
+\end{frame}
+
+\section{Conclusion}
+
+\begin{frame}
+	\frametitle{Final Thoughts}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Acknowledgments}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Questions}
+\end{frame}
+
+\end{document}
