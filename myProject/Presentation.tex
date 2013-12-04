@@ -7,6 +7,7 @@
 }
 
 \usepackage{amsmath}
+\usepackage{verbatim}
 
 % The text in square brackets is the short version of your title and will be used in the
 % header/footer depending on your theme.
@@ -39,6 +40,8 @@
 	\titlepage
 \end{frame}
 
+\section*{Overview}
+
 \begin{frame}
 	\frametitle{Overview}
 	\begin{itemize}
@@ -47,7 +50,7 @@
 		
 		\item They are difficult to design and to implement.
 		
-		\item Zero knowledge compilers help to ease this burden. 
+		\item Zero knowledge compilers help to ease this burden.
 	\end{itemize}
 \end{frame}
 
@@ -73,71 +76,313 @@
 	\frametitle{Interactive Proof}
 	Must satisfy:
 	\begin{itemize}
-		\item \textit{Completeness}: For every $ x \in S$, the verifier always
-		accepts after interacting with the prover on common input $x$.
-			
-		\item \textit{Soundness}: For every $x \notin S$, the verifier		
-		rejects with probability at least $\frac{1}{p(|x|)}$.
+		\item \textit{Completeness:} If the statement being proven is true, an
+		honest verifier, a verifier correctly following the protocol, will be
+		convinced after interacting with an honest prover.
+
+		\item \textit{Soundness:} If the statement is false, no prover, either
+		honest or dishonest, will be able to convince an honest verifier, except
+		with some small probability.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Zero Knowledge Proof}
+	Must satisfy:
+	\begin{itemize}
+		\item \textit{Zero knowledge:} Any knowledge known by
+	the prover or the verifier before performing the proof is the same
+	as the knowledge known by either party after performing the proof.		
+	\end{itemize}
 \end{frame}
 
-\subsection{Examples}
+\subsection{Magic Cave}
 
 \begin{frame}
-	\frametitle{Magic Cave}
+	\frametitle{Setup}
+	\begin{itemize}
+		\item Peggy discovers a cave. The cave has two paths. 
+		Both paths lead to a dead end. Peggy
+		discovers a secret word which opens up a door at the back of the cave
+		connecting the two paths.
+		
+		\item Victor hears about this cave and wishes to purchase the secret from
+		Peggy. Before paying Peggy, Victor wants to be sure that she actually
+		knows the secret word.
+		
+		\item Peggy must prove to Victor that she knows the word without revealing
+		what the word is.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Graph Theory Intro}
+	\frametitle{Protocol}
+	\begin{itemize}
+		\item Victor waits outside the cave while Peggy enters and randomly chooses
+		a path.
+		
+		\item Victor enters the cave and shouts to Peggy which path to return
+		from.
+		
+		\item If Peggy went down the path Victor named, she simply walks back out.
+		
+		\item If Peggy went down the other path, she must open the door and
+		walk down the path Victor choose.
+		
+	\end{itemize}
+\end{frame}
+
+\subsection{Hamiltonian Cycles}
+
+\begin{frame}
+	\frametitle{Definitions}
+	\begin{itemize}
+		\item A \textit{cycle} is a list of connected vertices of a graph
+		which starts and ends at the same vertex. 
+		
+		\item A \textit{Hamiltonian path} is a list of connected vertices of a
+		graph which includes each vertex exactly once.
+		
+		% I probably want a picture of a Hamiltonian Cycle
+		\item A \textit{Hamiltonian cycle} is a Hamiltonian path which is also
+		a cycle.
+		
+		% Talk about how finding a Hamiltonian Cycle is NP-Complete.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Hamiltonian Cycle}
+	\frametitle{Definitions}
+	\begin{itemize}
+		\item An \textit{isomorphism}, $f: V(G) \rightarrow V(H)$, of graphs 
+		$G$ and $H$ is a 
+		bijection between the vertex
+		sets of $G$ and $H$ such that any two vertices $u$ and $v$ are
+		adjacent in $G$ if and only if $f(u)$ and $f(v)$ are adjacent in $H$.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Setup}
+	\begin{itemize}
+		\item Want to prove knowledge of a Hamiltonian cycle in a graph without
+		revealing the cycle.
+		
+		\item The prover, $P$, knows a Hamiltonian Cycle for a graph, $G$.
+		The 	verifier, $V$, has knowledge of $G$ but not the cycle.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Protocol}
+	\begin{itemize}
+		\item $P$ constructs $H$, a graph which
+		is isomorphic to $G$. Since $P$ knows a Hamiltonian cycle
+		for $G$ they must know one for $H$ as well.
+		
+		\item $P$ commits to $H$, using a one-way function. Doing this 
+		means that $P$ cannot change $H$ without $V$ finding	out.
+		
+		\item $V$ then randomly asks $P$ to do one of two things. Either show
+		the isomorphism between $H$ and $G$, or show a Hamiltonian cycle in $H$.		
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Protocol}
+	\begin{itemize}
+		\item If $P$ was asked to show that the two graphs are isomorphic, they
+		start by revealing $H$ to $V$. They also provide the vertex translations
+		which map $G$ to $H$. $V$ can then verify that the two graphs are isomorphic.
+		
+		\item If $P$ was asked to show a Hamiltonian cycle in $H$, they first 
+		translate the cycle from $G$ onto $H$. They then reveal to $V$ the 
+		edges of $H$ which are a part of the Hamiltonian cycle. This is
+		enough for $V$ to verify that $H$ contains a Hamiltonian cycle.
+		
+		\item In both cases $V$ must also verify that $H$ is the same graph 
+		that $P$ committed to by using the same one-way function and comparing 
+		the outputs.
+		
+	\end{itemize}
 \end{frame}
 
 \section{Compilers}
 
 \begin{frame}
 	\frametitle{Compilers}
+	\begin{itemize}
+		\item Translates one language into another. 
+		\item Many different types of
+	compilers: single-pass compilers, multi-pass, load-and-go, debugging compilers,
+	optimizing compilers, and many combinations of these.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Compilers}
+	\begin{itemize}
+		\item The first compilers started to appear in the 1950s.
+		\item Notoriously difficult to implement, at the time.
+		\item There are two parts to compilation, analysis and synthesis.
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Zero Knowledge Compilers}
+	\begin{itemize}
+		\item Take, as input, an abstract proof specification or proof-goal, 
+		written in languages designed specifically for this problem.
+		\item Output an implementation of the given specification in
+    a high-level language, usually C++ or Java.
+	\end{itemize}
 \end{frame}
 
 \section{Zero Knowledge Compilers}
 
+\subsection{Background}
+
 \begin{frame}
-	\frametitle{Relevant Background}
-	Mostly Number Theory and Crypto stuff here.
+	\frametitle{Definitions}
+	\begin{itemize}
+		\item A \textit{group}, in a mathematical sense, is a set, $G$ paired with an 
+		operation, $\odot$, which combines any two elements (of the set) to form 
+		another element.
+		
+		\begin{itemize}
+			\item The set must be closed under that operation.
+			\item The operation must be associative.
+			\item There must be an identity element.
+			\item There must be	an inverse element.
+		\end{itemize}
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
+	\frametitle{Definitions}
+	\begin{itemize}
+		\item A \textit{preimage}, or \textit{inverse image} of a function, 
+		$f:A \rightarrow B$, is the set of all elements $a$ in $A$ such 
+		that $f(a)$ is in $B$.
+		
+		\item For example, if $f(x) = x^{2}$ then the preimage of $\{4\}$ 
+		would be $\{-2, 2\}$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Definitions}
+	\begin{itemize}
+		\item A mapping $\phi : G \rightarrow H$ from an additive group $(G, +)$ 
+		into a multiplicative group $(H, \cdot)$ is called a \textit{homomorphism} 
+		if and only if for all $a, b$ in $G$ the following equation holds: 
+		$\phi(a + b) = \phi(a) \cdot \phi(b)$
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{Notation}
+	Standard Notation for Zero knowledge proof goals:
+	\begin{itemize}
+		\item $\text{ZKP}[(\omega_{1},\omega_{2}):x_{1} = \phi_{1}(\omega_{1}) \land  x_{2} = \phi_{2}(\omega_{2}) \land \omega_{1} = a\omega_{2}]$ 
+		
+		\item Translates to: \textit{proof of knowledge of $w_{1}, w_{2}$ such that 
+	$x_{1} = \phi_{1}(\omega_{1}), x_{2} = \phi_{2}(\omega_{2})$ and $\omega_{1} = a\omega_{2}$}.
+	\end{itemize}
+\end{frame}
+
+\subsection{Sigma-Protocols}
+
+\begin{frame}
 	\frametitle{Sigma-Protocols}
+	\begin{itemize}	
+		\item $\Sigma$-Protocols are a class of
+		three-move protocols, meaning three messages are exchanged between the prover
+		and the verifier each round.
+		
+		\begin{itemize}
+			\item $P$, sends a \textit{commitment} $t$ to $V$.
+			\item $V$ then responds with a random \textit{challenge} $c$ from a 
+			predefined set of challenges $C$.
+			\item $P$ computes a \textit{response} $s$ and sends
+			it to $V$ who then decides whether to accept or reject the proof.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{The Compiler}
+	\begin{itemize}
+		\item Bangerter et al. present a language and compiler
+		which generates sound and efficient zero knowledge proofs of knowledge
+		based on $\Sigma$-Protocols.	
+		
+		\item Used to generate implementations of proofs
+		of knowledge of preimages under homomorphisms.
+		
+		\item Can handle proof-goals of the form:
+		\begin{itemize}
+			\item $\text{ZKP}[(\omega_{1},...,\omega_{m}):\bigvee\bigwedge y_{i} = \phi_{i}(\omega_{i})]$
+			\item $\text{ZKP}[(\omega_{1},...,\omega_{m}):\bigwedge y_{i} = \phi_{i}(\omega_{1},...,\omega_{m})\land HLR(\omega_{1},...,\omega_{m})]$
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
+	\frametitle{The Compiler}
+	Input Requires:
+	\begin{itemize}
+		\item Declaration of any algebraic objects involved (groups, elements,
+		homomorphisms, and constants).
+		\item Assignments from group elements to the group they belong to.
+		\item Definitions of homomorphisms.
+	\end{itemize}
+	Outputs:
+	\begin{itemize}
+		\item Java code for the $\Sigma$-protocol.
+		\item \LaTeX documentation of the protocol.
+	\end{itemize}
+\end{frame}
+
+\subsection{ZKCrypt}
+
+\begin{frame}
+	\frametitle{ZKCrypt}
+	\begin{itemize}
+		\item An optimizing cryptographic compiler.
+		\item Based on $\Sigma$-protocols.
+		\item Utilizes \textit{verified compilation} and \textit{verifying compilation}.
+	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{ZKCrypt}
+	\begin{itemize}
+		\item \textit{Verified compilation} is where the correctness of a compiler is proved 
+		once-and-for-all.
+		\item \textit{Verifying compilation} is where the correctness of a compiler is checked on
+		each run.
+	\end{itemize}
 \end{frame}
+
+\begin{frame}
+	\frametitle{Compilation Process}
+	This slide will have an image showing the various stages of compilation for ZKCrypt.
+\end{frame}
+
+\begin{comment}
+\subsection{ZKPDL}
 
 \begin{frame}
 	\frametitle{ZKPDL}
 \end{frame}
 
-\section{Applications}
-
-\begin{frame}
-	\frametitle{Electronic Cash}
-\end{frame}
+\end{comment}
 
 \section{Conclusion}
 
 \begin{frame}
 	\frametitle{Final Thoughts}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Acknowledgments}
 \end{frame}
 
 \begin{frame}
