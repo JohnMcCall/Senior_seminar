@@ -7,7 +7,10 @@
 }
 
 \usepackage{amsmath}
-\usepackage{verbatim}
+\usepackage[english]{babel}
+\usepackage[latin1]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc} 
 
 % The text in square brackets is the short version of your title and will be used in the
 % header/footer depending on your theme.
@@ -45,7 +48,8 @@
 \begin{frame}
 	\frametitle{Overview}
 	\begin{itemize}
-		\item Zero knowledge protocols have practical applications in cryptography.
+		\item Zero knowledge protocols are used to prove the validity of a statement, without revealing anything other than the correctness of the claim.
+		\item They have practical applications in cryptography.
 		% Such as Direct Anonymous Attestation.
 		
 		\item They are difficult to design and to implement.
@@ -100,36 +104,25 @@
 
 \begin{frame}
 	\frametitle{Setup}
-	\begin{itemize}
-		\item Peggy discovers a cave. The cave has two paths. 
-		Both paths lead to a dead end. Peggy
-		discovers a secret word which opens up a door at the back of the cave
-		connecting the two paths.
-		
-		\item Victor hears about this cave and wishes to purchase the secret from
-		Peggy. Before paying Peggy, Victor wants to be sure that she actually
-		knows the secret word.
-		
-		\item Peggy must prove to Victor that she knows the word without revealing
-		what the word is.
-	\end{itemize}
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.70\textwidth]{MagicCave0.jpg}
+	\caption{An image of the cave. \linebreak Modified from: \url{wikipedia.org/wiki/Zero-knowledge_proof}}
+	\label{fig:MCave}
+	\end{figure}
+	
 \end{frame}
 
 \begin{frame}
 	\frametitle{Protocol}
-	\begin{itemize}
-		\item Victor waits outside the cave while Peggy enters and randomly chooses
-		a path.
-		
-		\item Victor enters the cave and shouts to Peggy which path to return
-		from.
-		
-		\item If Peggy went down the path Victor named, she simply walks back out.
-		
-		\item If Peggy went down the other path, she must open the door and
-		walk down the path Victor choose.
-		
-	\end{itemize}
+
+	\begin{figure}
+	\centering
+	\includegraphics[width=1.00\textwidth]{MagicCave.jpg}
+	\caption{Illustration of the magic cave protocol. \linebreak Taken from: \url{wikipedia.org/wiki/Zero-knowledge_proof}}
+	\label{fig:MCave}
+	\end{figure}
+	
 \end{frame}
 
 \subsection{Hamiltonian Cycles}
@@ -147,6 +140,14 @@
 		\item A \textit{Hamiltonian cycle} is a Hamiltonian path which is also
 		a cycle.
 		
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.30\textwidth]{HCycle.jpg}
+	\caption{An example of a Hamiltonian cycle. The solid line marks the path.
+	Taken from: \url{wikipedia.org/wiki/Hamiltonian_path}}
+	\label{fig:HCycle}
+	\end{figure}
+		
 		% Talk about how finding a Hamiltonian Cycle is NP-Complete.
 	\end{itemize}
 \end{frame}
@@ -163,27 +164,40 @@
 \end{frame}
 
 \begin{frame}
+	\frametitle{One-way Functions}
+	\begin{itemize}
+		
+		\item Difficult to reverse.
+		
+		\item Low probability of collisions.
+		
+		\item Used when the prover needs to choose a value which remains a secret at first, but will be revealed later.
+		
+	\end{itemize}
+\end{frame}
+
+\begin{frame}
 	\frametitle{Setup}
 	\begin{itemize}
 		\item Want to prove knowledge of a Hamiltonian cycle in a graph without
 		revealing the cycle.
 		
-		\item The prover, $P$, knows a Hamiltonian Cycle for a graph, $G$.
-		The 	verifier, $V$, has knowledge of $G$ but not the cycle.
+		\item Peggy knows a Hamiltonian Cycle for a graph, $G$.
+		Victor has knowledge of $G$ but not the cycle.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Protocol}
 	\begin{itemize}
-		\item $P$ constructs $H$, a graph which
-		is isomorphic to $G$. Since $P$ knows a Hamiltonian cycle
-		for $G$ they must know one for $H$ as well.
+		\item Peggy constructs $H$, a graph which
+		is isomorphic to $G$. Since Peggy knows a Hamiltonian cycle
+		for $G$ she must know one for $H$ as well.
 		
-		\item $P$ commits to $H$, using a one-way function. Doing this 
-		means that $P$ cannot change $H$ without $V$ finding	out.
+		\item Peggy commits to $H$, using a one-way function. Doing this 
+		means that Peggy cannot change $H$ without Victor finding	out.
 		
-		\item $V$ then randomly asks $P$ to do one of two things. Either show
+		\item Victor then randomly asks Peggy to do one of two things. Either show
 		the isomorphism between $H$ and $G$, or show a Hamiltonian cycle in $H$.		
 	\end{itemize}
 \end{frame}
@@ -191,18 +205,19 @@
 \begin{frame}
 	\frametitle{Protocol}
 	\begin{itemize}
-		\item If $P$ was asked to show that the two graphs are isomorphic, they
-		start by revealing $H$ to $V$. They also provide the vertex translations
-		which map $G$ to $H$. $V$ can then verify that the two graphs are isomorphic.
+		\item If Peggy was asked to show that the two graphs are isomorphic, she
+		starts by revealing $H$ to Victor. She also reveals the isomorphism between 
+		$G$ and $H$. Victor can then verify that the two graphs are isomorphic.
 		
-		\item If $P$ was asked to show a Hamiltonian cycle in $H$, they first 
-		translate the cycle from $G$ onto $H$. They then reveal to $V$ the 
-		edges of $H$ which are a part of the Hamiltonian cycle. This is
-		enough for $V$ to verify that $H$ contains a Hamiltonian cycle.
+		\item If Peggy was asked to show a Hamiltonian cycle in $H$, she first 
+		translates the cycle from $G$ onto $H$. She then reveals to Victor the 
+		Hamiltonian cycle in $H$. 
 		
-		\item In both cases $V$ must also verify that $H$ is the same graph 
-		that $P$ committed to by using the same one-way function and comparing 
+		\item In both cases Victor must also verify that $H$ is the same graph 
+		that Peggy committed to by using the same one-way function and comparing 
 		the outputs.
+		
+		%Explain how Peggy can cheat.
 		
 	\end{itemize}
 \end{frame}
@@ -213,15 +228,7 @@
 	\frametitle{Compilers}
 	\begin{itemize}
 		\item Translates one language into another. 
-		\item Many different types of
-	compilers: single-pass compilers, multi-pass, load-and-go, debugging compilers,
-	optimizing compilers, and many combinations of these.
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{Compilers}
-	\begin{itemize}
+		\item Many different types of compilers: single-pass compilers, multi-pass, optimizing compilers, and many others.
 		\item The first compilers started to appear in the 1950s.
 		\item Notoriously difficult to implement, at the time.
 		\item There are two parts to compilation, analysis and synthesis.
@@ -233,6 +240,7 @@
 	\begin{itemize}
 		\item Take, as input, an abstract proof specification or proof-goal, 
 		written in languages designed specifically for this problem.
+		%Mention that the languages are supposed to reflect a proof goal
 		\item Output an implementation of the given specification in
     a high-level language, usually C++ or Java.
 	\end{itemize}
@@ -244,104 +252,65 @@
 
 \begin{frame}
 	\frametitle{Definitions}
-	\begin{itemize}
-		\item A \textit{group}, in a mathematical sense, is a set, $G$ paired with an 
-		operation, $\odot$, which combines any two elements (of the set) to form 
-		another element.
+	
+	 A \textit{group}, in a mathematical sense, is a set, $G$ paired with an 
+		operation, $\odot$. Written as $(G, \odot)$
 		
 		\begin{itemize}
 			\item The set must be closed under that operation.
+				\begin{itemize} 
+					\item If $a, b \in G$ then $a \odot b \in G$.
+				\end{itemize}
 			\item The operation must be associative.
+				\begin{itemize} 
+					\item If $a, b, c\in G$ then $(a \odot b) \odot c = a \odot (b \odot c)$.
+				\end{itemize}
 			\item There must be an identity element.
+				\begin{itemize} 
+					\item There exists an $e \in G$ such that for all $a \in G, a \odot e = a$.
+				\end{itemize}
 			\item There must be	an inverse element.
+				\begin{itemize} 
+					\item For all $a \in G$, there exists an $a^{-1} \in G$ such that, $a \odot a^{-1} = e$.
+				\end{itemize}
 		\end{itemize}
-	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{Definitions}
 	\begin{itemize}
-		\item A \textit{preimage}, or \textit{inverse image} of a function, 
-		$f:A \rightarrow B$, is the set of all elements $a$ in $A$ such 
+		\item The \textit{preimage} of a set, $B$, under some function,
+		$f:A \rightarrow B$, is the set of all elements $a$ in $A$ such
 		that $f(a)$ is in $B$.
 		
-		\item For example, if $f(x) = x^{2}$ then the preimage of $\{4\}$ 
+		\item For example, if $f(x) = x^{2}$ then the preimage of $\{4\}$
 		would be $\{-2, 2\}$
 	\end{itemize}
+	
+	%add a diagram 
 \end{frame}
+
+
 
 \begin{frame}
 	\frametitle{Definitions}
 	\begin{itemize}
-		\item A mapping $\phi : G \rightarrow H$ from an additive group $(G, +)$ 
-		into a multiplicative group $(H, \cdot)$ is called a \textit{homomorphism} 
-		if and only if for all $a, b$ in $G$ the following equation holds: 
-		$\phi(a + b) = \phi(a) \cdot \phi(b)$
+		\item A mapping $\phi : G \rightarrow H$ from a group, $(G, \odot)$, 
+		to another group,  $(H, \oplus)$, is called a \textit{homomorphism} 
+		if and only if for all $a, b$ in $G$ the following equation holds:
+		$\phi(a \odot b) = \phi(a) \oplus \phi(b)$
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Notation}
-	Standard Notation for Zero knowledge proof goals:
-	\begin{itemize}
-		\item $\text{ZKP}[(\omega_{1},\omega_{2}):x_{1} = \phi_{1}(\omega_{1}) \land  x_{2} = \phi_{2}(\omega_{2}) \land \omega_{1} = a\omega_{2}]$ 
-		
-		\item Translates to: \textit{proof of knowledge of $w_{1}, w_{2}$ such that 
-	$x_{1} = \phi_{1}(\omega_{1}), x_{2} = \phi_{2}(\omega_{2})$ and $\omega_{1} = a\omega_{2}$}.
-	\end{itemize}
-\end{frame}
-
-\subsection{Sigma-Protocols}
-
-\begin{frame}
-	\frametitle{Sigma-Protocols}
-	\begin{itemize}	
-		\item $\Sigma$-Protocols are a class of
-		three-move protocols, meaning three messages are exchanged between the prover
-		and the verifier each round.
-		
-		\begin{itemize}
-			\item $P$, sends a \textit{commitment} $t$ to $V$.
-			\item $V$ then responds with a random \textit{challenge} $c$ from a 
-			predefined set of challenges $C$.
-			\item $P$ computes a \textit{response} $s$ and sends
-			it to $V$ who then decides whether to accept or reject the proof.
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{The Compiler}
-	\begin{itemize}
-		\item Bangerter et al. present a language and compiler
-		which generates sound and efficient zero knowledge proofs of knowledge
-		based on $\Sigma$-Protocols.	
-		
-		\item Used to generate implementations of proofs
-		of knowledge of preimages under homomorphisms.
-		
-		\item Can handle proof-goals of the form:
-		\begin{itemize}
-			\item $\text{ZKP}[(\omega_{1},...,\omega_{m}):\bigvee\bigwedge y_{i} = \phi_{i}(\omega_{i})]$
-			\item $\text{ZKP}[(\omega_{1},...,\omega_{m}):\bigwedge y_{i} = \phi_{i}(\omega_{1},...,\omega_{m})\land HLR(\omega_{1},...,\omega_{m})]$
-		\end{itemize}
-	\end{itemize}
-\end{frame}
-
-\begin{frame}
-	\frametitle{The Compiler}
-	Input Requires:
-	\begin{itemize}
-		\item Declaration of any algebraic objects involved (groups, elements,
-		homomorphisms, and constants).
-		\item Assignments from group elements to the group they belong to.
-		\item Definitions of homomorphisms.
-	\end{itemize}
-	Outputs:
-	\begin{itemize}
-		\item Java code for the $\Sigma$-protocol.
-		\item \LaTeX documentation of the protocol.
-	\end{itemize}
+	\frametitle{Homomorphism}
+	
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.80\textwidth]{homomorphism.pdf}
+	\caption{Diagram showing a homomorphism.}
+	\label{fig:HCycle}
+	\end{figure}
 \end{frame}
 
 \subsection{ZKCrypt}
@@ -349,44 +318,126 @@
 \begin{frame}
 	\frametitle{ZKCrypt}
 	\begin{itemize}
+		\item Developed by Almedia et al.
 		\item An optimizing cryptographic compiler.
-		\item Based on $\Sigma$-protocols.
+		%\item Based on $\Sigma$-protocols.
 		\item Utilizes \textit{verified compilation} and \textit{verifying compilation}.
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
 	\frametitle{ZKCrypt}
+	
+	\begin{figure}
+	\centering
+	\includegraphics[width=0.80\textwidth]{homomorphism.pdf}
+	\caption{Diagram showing a homomorphism.}
+	\label{fig:HCycle}
+	\end{figure}
+\end{frame}
+
+\begin{frame}
+	\frametitle{The Input}
+	Consists of:
 	\begin{itemize}
-		\item \textit{Verified compilation} is where the correctness of a compiler is proved 
-		once-and-for-all.
-		\item \textit{Verifying compilation} is where the correctness of a compiler is checked on
-		each run.
+		\item Declarations block.
+		
+		\item Inputs block.
+		
+		\item Protocol block:
+		\begin{itemize}
+			\item Homomorphism.
+			\item Relation.
+		\end{itemize}
 	\end{itemize}
 \end{frame}
 
 \begin{frame}
-	\frametitle{Compilation Process}
-	This slide will have an image showing the various stages of compilation for ZKCrypt.
+	\frametitle{ZKCrypt}
+	\begin{itemize}
+		\item \textit{Verified compilation} is where the correctness of the output is proven once-and-for-all.
+		\item \textit{Verifying compilation} is where the correctness of the output is checked on each run.
+	\end{itemize}
 \end{frame}
 
-\begin{comment}
 \subsection{ZKPDL}
 
 \begin{frame}
 	\frametitle{ZKPDL}
+	\begin{itemize}
+		\item Developed by Meiklejohn et al.
+		
+		\item Primarily used in electronic cash.
+		
+		\item Split into independent two blocks: \textit{computation} and \textit{proof}.
+		
+	\end{itemize}
 \end{frame}
 
-\end{comment}
+\begin{frame}
+	\frametitle{The Input}
+	\begin{itemize}
+		\item Computation block:
+		\begin{itemize}
+			\item Given block.
+		
+			\item Compute block.
+		
+		\end{itemize}
+	
+		\item Proof block:
+		\begin{itemize}
+			\item Given block.
+		
+			\item Prove knowledge of block.
+		
+			\item Such that block.
+		\end{itemize}
+	\end{itemize}
+\end{frame}
 
 \section{Conclusion}
 
 \begin{frame}
 	\frametitle{Final Thoughts}
+	\begin{itemize}
+		\item ZKCrypt, more general purpose, performs optimizations.
+		
+		\item ZKPDL, more focused on e-cash.
+				
+	\end{itemize}
 \end{frame}
 
-\begin{frame}
-	\frametitle{Questions}
+\section*{References}
+
+\begin{frame} 
+        \frametitle{References} 
+        
+        \begin{thebibliography}{lskdjf}
+        
+        \bibitem{ZKCrypt}
+J.~B. Almeida, M.~Barbosa, E.~Bangerter, G.~Barthe, S.~Krenn, and S.~Z. B{\'e}guelin.
+\newblock Full proof cryptography: verifiable compilation of efficient zero-knowledge protocols.
+\newblock In \textit{Proceedings of the 2012 ACM conference on Computer and communications security}, {\em CCS '12}, pages 488-500, ACM, New~York, New~York, USA, 2012.
+        
+        \bibitem{citeulike:3452411}
+        S.~Meiklejohn, C.~Erway, A.~K\"{u}p\c{c}\"{u}, T.~Hinkle,and A.~Lysyanskaya.
+\newblock ZKPDL: a language-based system for efficient zero-knowledge proofs and electronic cash.
+\newblock In Proceedings of the 19th USENIX conference on Security , {\em USENIX Security'10}, USENIX Association, Berkeley, CA, USA.
+  
+          \end{thebibliography}
+
 \end{frame}
+
+\section*{Questions?}
+
+\begin{frame}
+	\frametitle{Thank you!}
+	\Large{Questions?}
+\end{frame}
+
+
+
+
 
 \end{document}
